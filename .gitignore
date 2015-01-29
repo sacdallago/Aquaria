@@ -1,0 +1,8 @@
+node_modules
+.DS_Store
+cache/*
+public/pv
+log/*
+public/googlehostedservice.html
+public/javascripts/aquaria.js
+site.json

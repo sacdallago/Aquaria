@@ -1,0 +1,14 @@
+{
+	"port"		: "[your server port number]",
+	"development"	: "true",
+  "host"      : "[your web server hostname]",
+	"dbhost"     	: "database.aquaria.ws",
+	"dbuser"     	: "read_only",
+	"dbpassword" 	: "Aquaria_4_the_win!",
+	"database" 	: "aquaria",
+	"major_version"	: "1",
+	"minor_version"	: "0",
+  "googleHostedService" : "",
+  "googleAnalyticsID" : "[your analytics ID]",
+  "googleAnalyticsHostname" : "[your analytics hostname]"
+}

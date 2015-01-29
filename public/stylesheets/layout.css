@@ -1,0 +1,261 @@
+@media screen,print
+{
+	body{
+	    margin:0 auto;
+/* 	    position: relative; */
+	}
+	
+	#footer {
+	    clear:both;
+	    width:100%;
+	    height:20px;
+	    }
+	
+	#content {
+	    float: left;
+	    min-height:100%;
+	    width: 100%;
+	    /*overflow: hidden;*/
+	}
+	#wrapper {
+		 
+	}
+	#gallery {
+	    width: 250px;
+		min-height: 100px;
+		position: absolute;
+		top: 9px;
+		right: 2%;
+	}
+	
+	#center {
+		margin: 0 254px;
+	}
+	
+	#controls {
+		float: left;
+	    width: 250px;
+	    min-height:100%;
+	}
+	
+	#controls div, #gallery div { 
+		margin: 2px 0; 
+		width: 240px;
+	}
+	#wrapper {
+		width:96%;
+		margin:0 auto;
+	}
+	
+	div.outer_container {
+		position: relative;	
+		left: -40px;
+		height: 42px;
+	}
+	
+	div#featureContainer {
+		position: relative;
+		height: 400px;
+		overflow: scroll;
+	}
+	div#featureContainer.noscroll {
+		height: 100%;
+	}
+	div.container {
+		position: absolute;
+		top:0px;
+		left:40px;
+		/*float:left;
+		margin-left: 40px;*/
+		width: 100%;
+	}
+	
+	#description span.content {
+		height: 600px;
+		overflow: hidden;
+	}
+	div#uniProtDesc {
+		height: 300px;
+		overflow: hidden;
+	}
+}
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 400px) {
+/* Styles */
+	#gallery {
+	    display:block;
+	    float:none;
+	    width:100%;
+	    min-height:100%;
+	    	}
+	
+	#center {
+	    min-height:100%;
+	    display:block;
+	    float:none;
+	    width: 100%;
+	}
+	
+	#controls {
+	    width:100%;
+	    min-height:100%;
+	    }
+	#controls div {
+		float:left;
+		width:200px;
+	}
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen 
+and (min-width : 321px) {
+/*	#gallery {
+	    width:100%;
+	    min-height:100%;
+	    }
+	
+	#center {
+	    min-height:100%;
+	    display:block;
+	    float:none;
+	    width: 100%;
+	}
+	
+	#controls {
+	    width:100%;
+	    min-height:100%;
+	    }
+	#controls div {
+		float:left;
+		width:300px;
+	}*/
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+	#gallery {
+	    width:100%;
+	    min-height:100%;
+	    
+	}
+	
+	#center {
+	    min-height:100%;
+	    display:block;
+	    float:none;
+	    width: 100%;
+	}
+	
+	#controls {
+	    display:block;
+	    width:100%;
+	    min-height:100%;
+	    	}
+	#controls div {
+		float:left;
+		width:300px;
+	}
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-width : 768px)	{
+/*	#wrapper {
+		width:800px;
+		margin:0 auto;
+	}
+	#gallery {
+		float:left;
+	    width:100%;
+	    min-height:100%;
+	    	}
+	
+	#center {
+	    min-height:100%;
+		float:right;
+	    width:530px;
+	}
+	
+	#controls {
+		float:right;
+	    width:260px;
+	    min-height:100%;
+	    	}
+	#controls div {
+		width:250px;
+	}
+	*/
+}
+
+
+/* iPads (landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+/* Styles */
+	#wrapper {
+		width:1000px;
+		margin:0 auto;
+	}
+	#gallery {
+		float:left;
+	    width:134px;
+	    min-height:100%;
+	    	}
+	
+	#center {
+	    min-height:100%;
+		float:right;
+	    width:580px;
+	}
+	
+	#controls {
+		float:right;
+	    width:250px;
+	    min-height:100%;
+	    	}
+
+}
+
+/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+	#wrapper {
+		width:800px;
+		margin:0 auto;
+	}
+	#gallery {
+		float:left;
+	    width:100%;
+	    min-height:100%;
+	    	}
+	
+	#center {
+	    min-height:100%;
+		float:right;
+	    width:530px;
+	}
+	
+	#controls {
+		float:right;
+	    width:260px;
+	    min-height:100%;
+	    
+	}
+
+}
+
+
+
+/* iPhone 4 ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5) {
+/* Styles */
+}

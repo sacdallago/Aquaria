@@ -1,0 +1,8 @@
+access.log
+error.log
+node.log
+console.log
+exceptions.log
+debug.log
+*
+!.gitignore
