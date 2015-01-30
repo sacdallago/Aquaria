@@ -144,9 +144,13 @@ function stripScripts(s) {
  */
 var add_external_annotation = function(primary_accession, json_object, ann, das_server,
 		category) {
-
+	var ann_key;
 	var categorytype = category.trim().replace(")","").split("(");
-	var ann_key = das_server + "|:|" + categorytype[0] + "|:|" + categorytype[1];
+	// add emtpy category
+	if (categorytype.length == 1){
+		categorytype.push("");	
+	}
+	var ann_key = das_server + "|:|" + categorytype[0] + "|:|" + categorytype[1];	
 		
 	for ( var i = 0; i < ann.Features.length; i++) {
 		var f = ann.Features[i];

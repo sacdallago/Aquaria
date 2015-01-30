@@ -49,13 +49,21 @@ var updateFeatureUI = function(featureList) {
 			.attr("class", "track")
 			.html(
 					function(d) {
-						return "<p><b>"
+						if (d.Type != ''){
+							return "<p><b>"
 								+ d.Category
 								+ "</b> ("
 								+ d.Type.replace(/_/g, " ")
 								+ ") <span class='source'>"
 								+ d.Server
 								+ "</span></p>";
+						} else {
+							return "<p><b>"
+								+ d.Category
+								+ "</b> <span class='source'>"
+								+ d.Server
+								+ "</span></p>";							
+						}
 					}).each(drawTrack);
 	
 	if (AQUARIA.preferred_protein_name !== "unknown") {
