@@ -1,7 +1,7 @@
 //var PVSelector = require('./pvSelector');
 var seedrandom = require('seedrandom');
 var menuBar = require('./pv/menuBar');
-
+var numeric = require('numeric');
 var rng = seedrandom('aquaria', {global: true});
 
 var singleResidue = {};
@@ -57,9 +57,8 @@ var PV3DPanel = function (attachToDiv) {
 	this.type = 'cartoon';
 	this.colourSchemeName = 'homology';
 	this.attachPV = $(attachToDiv).append('<div id="pv"></div>');
+	this.viewMode = 'pca';
 	this.initialised = false;
-//	this.initFeatureView();
-	this.rotationSamples = createRandomRotations(128);
 };
 
 PV3DPanel.prototype.getChainsForAccession = function(accession) {
@@ -174,13 +173,25 @@ PV3DPanel.prototype.addAnnotation = function(id, annotationName, featureColours,
 	this.updateFeatureWeights(features);
 	// color the new feature
 	this.colorFeatures();
-	this.setViewMode(this.viewMode);
+//	this.setViewMode(this.viewMode, {
+//		 entropyWeight: $('#entropyWeight').val(),
+//		 preferredWeight: $('#preferredWeight').val(),
+//		 distanceWeight: $('#distanceWeight').val()
+//		 });
 	pViewer.requestRedraw();
 };
 
 PV3DPanel.prototype.colorFeatures = function() {
+	
+	if (typeof(this.featureViews) === 'undefined') {	
+		return;	// no features set
+	};
+	
 	var that = this;
 	//FIXME: does not guarantee to reflect the order in which features were added!
+	if (Object.keys(this.featureViews).length) {
+		that.geom.colorBy(color.uniform('#AAAAAA'));	
+	}
 	for (var annotation in this.featureViews) {
 		if (annotation == 'SS') continue;
 		var features = this.featureViews[annotation];
@@ -189,7 +200,6 @@ PV3DPanel.prototype.colorFeatures = function() {
 				that.geom.colorBy(feature.colour, feature.view);
 			});
 		}
-		
 	}
 }
 
@@ -201,17 +211,36 @@ PV3DPanel.prototype.initFeatureView = function(structure) {
 	var that = this;
 	this.featureViews = [];
 	this.featureWeights = {};
-//	var residueCount = 0;
-//	structure.chains().forEach(function(chain) {
-//		residueCount += chain.residues().length;
-//	});
-//	
+	
+//	this.rotationSamples = createRandomRotations(128);
+	this.preferredRotations = [];
+	
+	var pca = this.computePCA();
+	var pc1 = [pca[0], pca[4], pca[8]];
+	var rot = mat4.create();
+	mat4.rotate(rot, pca, Math.PI, pc1);
+	
+	this.preferredRotations.push(pca, rot);
+	
+	var preferred1 = vec3.fromValues(this.preferredRotations[0][2], this.preferredRotations[0][6], this.preferredRotations[0][10]);
+	vec3.normalize(preferred1, preferred1);
+
+	var preferred2 = vec3.fromValues(this.preferredRotations[1][2], this.preferredRotations[1][6], this.preferredRotations[1][10]);
+	vec3.normalize(preferred2, preferred2);
+	
+	this.rotationSamples = [preferred1, preferred2];
+	
+	this.sampleRotations(this.rotationSamples, this.preferredRotations[0], 
+			pc1, 128);
+	
+//	this.featureMap = this.computeFeatureMap(this.rotationSamples);
+
 	structure.eachResidue(function(residue) {
 		var index = getIndexFromResidue(residue);
 		that.featureWeights[index] = 0;
 	});
-	this.featureViews["SS"] = [{view:structure, colour:that.colourScheme}];
-	this.updateFeatureWeights(this.featureViews["SS"]);
+//	this.featureViews["SS"] = [{view:structure, colour:that.colourScheme}];
+//	this.updateFeatureWeights(this.featureViews["SS"]);
 }
 
 PV3DPanel.prototype.updateFeatureWeights = function(features) {
@@ -222,16 +251,20 @@ PV3DPanel.prototype.updateFeatureWeights = function(features) {
 			featureLength += 1;
 		});
 	});
-	features.forEach(function(feature) {
-		feature.view.eachResidue(function(residue) {
-			var index = getIndexFromResidue(residue);
-			if (that.featureWeights[index] === undefined) {
-				that.featureWeights[index] = 1/featureLength;
-			} else {
-				that.featureWeights[index] += 1/featureLength;
-			}
+	if (featureLength > 0) {
+
+		features.forEach(function(feature) {
+			feature.view.eachResidue(function(residue) {
+				var index = getIndexFromResidue(residue);
+				if (that.featureWeights[index] === undefined) {
+					that.featureWeights[index] = 1/featureLength;
+				} else {
+					that.featureWeights[index] += 1/featureLength;
+				}
+			});
 		});
-	})
+
+	}
 }
 
 function preset() {
@@ -244,7 +277,8 @@ function preset() {
 PV3DPanel.prototype.setType = function (newType) {
 	if (newType !== this.type) {
 		this.type = newType;
-		this.reload();
+//		this.reload();
+		this.loadType(newType, structure, this.attributes);
 	}
 }
 
@@ -291,23 +325,15 @@ PV3DPanel.prototype.reload =  function(attributes) {
 //	url = "http://pdb.org:80/pdb/files/" + attributes.pdb_id + ".pdb" + attributes.biounit + ".gz";
 //	}
 
-
-
 	$.ajax({ url : attributes.url, success : function(data) {
 		structure = io.pdb(data);
 		pViewer.clear();
 		that.setColourScheme(that.colourSchemeName);
 		that.loadType(that.type, structure, attributes);
+		that.initFeatureView(structure);
 		pViewer.autoZoom();
-		that.setViewMode(that.viewMode);
 		that.blankApplet(false);
-		if (typeof that.selector === 'undefined') {
-			that.selector =  that.PVSelector(structure, pViewer, that.geom); 
-		}
-		else {
-			that.selector.update(structure, that.geom);
-		}
-
+		that.setViewMode(that.viewMode);
 		that.initialised = true;
 	}});
 };
@@ -316,7 +342,13 @@ PV3DPanel.prototype.loadType =  function(type, structure, attributes) {
 	var that = this;
 	that.type = type;
 	that.geom = pViewer.renderAs('structure.protein', structure, type, {color: that.colourScheme, strength: 1.0});
-	that.initFeatureView(structure);
+	if (typeof that.selector === 'undefined') {
+		that.selector =  that.PVSelector(structure, pViewer, that.geom); 
+	}
+	else {
+		that.selector.update(structure, that.geom);
+	}
+	this.colorFeatures();
 //	this.selector.geom = that.geom;
 };
 
@@ -679,19 +711,10 @@ var  byElementWithBlack = function() {
 	}, null, null);
 };
 
-PV3DPanel.prototype.setViewMode = function(mode) {
+PV3DPanel.prototype.setViewMode = function(mode, options) {
+	options = options || {entropyWeight:1,preferredWeight:1,distanceWeight:1}
 	var that = this;
 	mode = mode || 'locked';
-//	options = copy(options);
-//	options.samples = options.samples || 16;
-//	options.view = (options.structure || this.featureOptions.structure) || structure;
-//	options.featureNames = (options.featureNames || this.featureOptions.featureNames) || [];
-//	options.annotationName = (options.annotationName || this.featureOptions.annotationName) || "";
-
-//	var type = 'residue';
-//	if (this.type === 'ballsAndSticks' || this.type === 'spheres' || this.type === 'lines') {
-//	type = 'atom';
-//	}
 
 	this.viewMode = mode;
 
@@ -716,150 +739,158 @@ PV3DPanel.prototype.setViewMode = function(mode) {
 
 	if (mode === 'entropy') {
 
-//		var r = vec3.length(v1);
-//		var points = hammersleySampler(16);
-//		points.forEach(function(point) {
-//			vec3.scaleAndAdd(point, center, point, r);
-//			pViewer.label('p', 'p', point);
-//		})
-		rotation = this.getMaximumEntropyView(this.rotationSamples);
+		var featureMap = this.computeFeatureMap(this.rotationSamples);
+		if (featureMap[0].entropy > 0) {
+			rotation = featureMap[0].rotation;
+			console.log("max entropy:" + featureMap[0].entropy);
+		};
+		
 
 	} else if (mode === 'pca') {
 
-		var samples = [];
-		
-		rotation = this.computePCA();
-		samples.push(rotation);
-		var rot = mat4.create();
-		mat4.rotate(rot, rotation, Math.PI, [rotation[0], rotation[4], rotation[8]]);
-		samples.push(rot);
-		
+		var samples = this.preferredRotations;
+
 		// find the shortest distance from the current view
 		var shortestDistance = 100000;
 		var ccp = vec3.create();
 		vec3.normalize(ccp, v1);
 		samples.forEach(function(r) {
 			var p = vec3.fromValues(r[2], r[6], r[10]);
-			var d = Math.acos(vec3.dot(p, ccp));
+			vec3.normalize(p,p);
+			var d = Math.acos(vec3.dot(p, ccp)) / Math.PI;
 			if (d < shortestDistance) {
 				shortestDistance = d;
 				rotation = r;
 			}
 		});
-		
-		console.log("entropy for PCA: " + this.computeEntropy(rotation));
+
+//		console.log("entropy for PCA: " + this.computeEntropy(rotation));
 
 	} else if (mode === 'auto') {
 
-		var samples = [];
-		
-		if (typeof this.featureViews.extramembrane !== 'undefined') {
-			rotation = this.computeTMRotation(this.featureViews.extramembrane);
-			samples.push(rotation);
-			this.sampleRotations(samples, rotation, [rotation[1], rotation[5], rotation[9]], 128);
-		} else {
+		var featureMap = this.computeFeatureMap(this.rotationSamples);
 
-			rotation = this.computePCA();
-			samples.push(rotation);
-			var rot = mat4.create();
-			mat4.rotate(rot, rotation, Math.PI, [rotation[0], rotation[4], rotation[8]]);
-			samples.push(rot);
-			
-			// rotate around the first principal component
-			this.sampleRotations(samples,rotation, [rotation[0], rotation[4], rotation[8]], 128);
-			
-			// find the shortest distance from the current view
-//			var maxScore = 0;
-//			var ccp = vec3.create();
-//			vec3.normalize(ccp, v1);
-//			samples.forEach(function(r) {
-//				var e = that.computeEntropy(r);
-//				var p = vec3.fromValues(r[2], r[6], r[10]);
-//				var d = Math.acos(vec3.dot(p, ccp));
-//				var score = e;
-//				if (score > maxScore) {
-//					maxScore = score;
-//					rotation = r;
-//				}
-//			});
-			
-		}
-//		options.weighted = false;
-		rotation = this.getMaximumEntropyView(samples);
+		var dist = normal(0, 1);
+		// find the shortest distance from the current view
+		var maxScore = -1;
+//		var ccp = vec3.create();
+		var cam_rotation = mat4.clone(pViewer._cam.rotation());
+		var ccp = vec3.fromValues(cam_rotation[2], cam_rotation[6], cam_rotation[10]);
+		vec3.normalize(ccp, ccp);
+		featureMap.forEach(function(feature) {
+			var e = feature.entropy;
+			var pr = feature.preferredRegion;
+			console.assert(pr <= 1, "spherical distance > 1: " + pr);
+			var r = feature.rotation;
+//			var s = that.getViewStability(r);
+			var p = feature.point;
+			vec3.normalize(p, p);
+			var d = dist(sphericalDistance(p, ccp));
+//			that.labelPoints([p]);
+			var score = options.distanceWeight * d + 
+						options.entropyWeight * e + 
+						options.preferredWeight * pr;
+			if (score > maxScore) {
+				maxScore = score;
+				// get rotation to p, but maintain current camera orientation
+				var q = quat.create();
+				quat.rotationTo(q, p, ccp);
+				var m = mat4.create();
+				mat4.fromQuat(m, q);
+				mat4.multiply(rotation, cam_rotation, m);
+			}
+		});
+
+		console.log("max score: " + maxScore);
 
 	}
 
-//	var view = cameraPosition(rotation, center, zoom);
-//	pViewer.label('N', 'N', view);
-//	
-//	
-//	var v2 = vec3.create();
-//	
-//	vec3.subtract(v2, view, center);
-//
-//	vec3.normalize(v1, v1);
-//	vec3.normalize(v2, v2);
-//
-//	q = quat.create();
-//	quat.rotationTo(q, v2, v1);
-//	mat4.fromQuat(rotation, q);
 //	pViewer.autoZoom();
+
 	
-//	rotation = createRotation(view);
-	pViewer.setRotation(rotation, 2000);
+	pViewer.setRotation(rotation, 500);
 
 };
 
-PV3DPanel.prototype.labelPoints = function(points) {
+PV3DPanel.prototype.computeFeatureMap = function(samples) {
+	var that = this;
+
+	var featureMap = [];
+
+//	var pcaPoint = vec3.fromValues(this.preferredRotation[2], this.preferredRotation[6], this.preferredRotation[10]);
+//
+//	this.labelPoints([pcaPoint], "P1");
+//	this.labelPoints([vec3.scale(pcaPoint, pcaPoint, -1)], "P2");
+//	this.labelPoints(samples);
+
+	var maxEntropy = 0;
+	// compute feature maps
+	samples.forEach(function(point) {
+
+		var rotation = that.createRotation(point);
+		var e = that.computeEntropy(rotation);
+		if ( e > maxEntropy ) {
+			maxEntropy = e;
+		}
+		var d = that.computePreferredRegion(point);
+		console.assert(d <= 1, "distance to pr > 1: " + d);
+		featureMap.push(
+				{
+					'point' : point,
+					'rotation' : rotation, 
+					'entropy' : e,
+					'preferredRegion' : d
+				});
+	});
+
+	// normalize entropy
+	if (maxEntropy > 0) {
+		featureMap.forEach(function(feature) {
+			feature.entropy /= maxEntropy;
+		});
+	}
+
+	featureMap.sort(function(a, b) {
+		return b.entropy - a.entropy;
+	});
+	
+	return featureMap;
+
+}
+
+PV3DPanel.prototype.labelPoints = function(points, label) {
+	label = label || '*';
 	var v = vec3.create();
 	var r = pViewer._cam.zoom();
 	var center = vec3.clone(pViewer._cam.center());
 	points.forEach(function(point) {
 		vec3.normalize(v, point);
 		vec3.scaleAndAdd(v, center, v, r);
-		pViewer.label('p', 'p', v);
+		pViewer.label('p', label, v);
 	});
 	pViewer.requestRedraw();
-	
+
 }
 
-// doesn't work yet!
-createRotation = function(view) {
-	var rotation = mat4.create();
-	
-	var tmpView = vec3.create();
-	vec3.normalize(tmpView, view);
-	var right = vec3.fromValues(1, 0, 0);
-	var up = vec3.fromValues(0, 1, 0);
+//returns the normalized spherical distance of two cartesian vectors
+sphericalDistance = function(a, b) {
+	var an = vec3.create();
+	var bn = vec3.create();
+	vec3.normalize(an, a);
+	vec3.normalize(bn, b);
+	return Math.acos(vec3.dot(an, bn)) / Math.PI;
+};
 
-	vec3.cross(up, tmpView, up);
-	if (up[0] === 0 && up[1] === 0 && up[2] === 0) {	// check for parallel vectors
-		vec3.cross(up, tmpView, right);
-	}
 
-	vec3.cross(right, up, tmpView);
-	
-	vec3.normalize(up, up);
-	vec3.normalize(right, right);
-	
-	rotation = mat4.fromValues(
-			right[0], up[0], tmpView[0], 0,
-			right[1], up[1], tmpView[1], 0,
-			right[2], up[2], tmpView[2], 0,
-			0,0,0,1);
+PV3DPanel.prototype.createRotation = function(view) {
+	var start = vec3.fromValues(0, 0, 1);
+	var q = quat.create();
+	var m = mat4.create();
+	var tmpVec = vec3.create();
+	vec3.normalize(tmpVec, view);
+	var rotation = mat4.fromQuat(m, quat.rotationTo(q, tmpVec, start));
 
-	var r = mat3.create();
-	mat3.fromMat4(r, rotation);
-	if (mat3.determinant(r) < 0) {
-		rotation = mat4.fromValues(
-				-right[0], up[0], tmpView[0], 0,
-				-right[1], up[1], tmpView[1], 0,
-				-right[2], up[2], tmpView[2], 0,
-				0,0,0,1);
-	}
-	
 	return(rotation);
-	
 }
 
 PV3DPanel.prototype.computeTMRotation = function(features) {
@@ -885,7 +916,7 @@ PV3DPanel.prototype.computeTMRotation = function(features) {
 
 		});
 	});
-	
+
 	var comExtra = getCenterOfMass(extraCellularAtoms);
 	var comIntra = getCenterOfMass(intraCellularAtoms);
 
@@ -949,36 +980,23 @@ PV3DPanel.prototype.sampleRotations = function(ret, rotation, axis, samples) {
 		var rad = 2*Math.PI*(i+1)/(samples + 1);
 		var auxRotation = mat4.create();
 		mat4.rotate(auxRotation, rotation, rad, axis);
-		ret.push(auxRotation);
+		var p = vec3.fromValues(auxRotation[2], auxRotation[6], auxRotation[10]);
+		vec3.normalize(p,p);
+		ret.push(p);
 	}
 	return(ret);
 }
 
-PV3DPanel.prototype.getMaximumEntropyView = function(samples) {
-	var that = this;
-
-	var rotation = mat4.create();
-	var maxI = 0;
-	var all = [];
-	samples.forEach(function(auxRotation) {
-		var e = that.computeEntropy(auxRotation);
-
-		if (e > maxI) {
-			rotation = auxRotation;
-			maxI = e;
-		}
-		all.push(e);
-	});
-	
-//	console.log("maximum e: " + maxI);
-	console.log(all.sort());
-
-	return(rotation);
-
-};
+//PV3DPanel.prototype.getMaximumEntropyView = function() {
+//	var that = this;
+//	var maxI = 0;
+//	var npix = {};
+//
+//	return(this.featureMap[0].rotation);
+//
+//};
 
 PV3DPanel.prototype.computeEntropy = function(rotation) {
-	var size = pViewer.ENTROPY_BUFFER_WIDTH * pViewer.ENTROPY_BUFFER_HEIGHT;
 	var npix = {};
 	var that = this;
 
@@ -991,13 +1009,17 @@ PV3DPanel.prototype.computeEntropy = function(rotation) {
 		}
 	});
 
-	var visible = Object.keys(npix).length;
-//	console.log("number of visible atoms: " + visible);
+	return this.entropy(npix);
+
+}
+
+PV3DPanel.prototype.entropy = function(npix) {
+	var size = pViewer.ENTROPY_BUFFER_WIDTH * pViewer.ENTROPY_BUFFER_HEIGHT;
 	var e = 0;
 	for (var index in npix) {
 		if (npix.hasOwnProperty(index)) {
 			var tmp = npix[index]/size;    // > 0 by construction
-			var w = that.featureWeights[index];
+			var w = this.featureWeights[index];
 			var contrib = w * tmp * Math.log(tmp) / Math.log(2);
 			e += contrib;
 		} 
@@ -1006,20 +1028,88 @@ PV3DPanel.prototype.computeEntropy = function(rotation) {
 	return -e;
 }
 
+PV3DPanel.prototype.computePreferredRegion = function(point) {
+
+	// distance from equator, which is defined by the 1st principal component
+
+	var p = vec3.clone(point);
+	vec3.normalize(p, p);
+
+	var preferred1 = vec3.fromValues(this.preferredRotations[0][2], this.preferredRotations[0][6], this.preferredRotations[0][10]);
+	vec3.normalize(preferred1, preferred1);
+
+	var preferred2 = vec3.fromValues(this.preferredRotations[1][2], this.preferredRotations[1][6], this.preferredRotations[1][10]);
+	vec3.normalize(preferred2, preferred2);
+//	vec3.scale(preferred2, preferred1, -1);
+
+	var sp1 = spherical(preferred1);
+	var sp2 = spherical(preferred2);
+	var mu1 = sp1[1];
+	var mu2 = sp2[1];
+
+//	var phi = sp1[2];
+
+	var sp = spherical(p);
+
+//	var d = gaussian([mu1, phi], [1, 1]);
+	
+	var p1 = mvNormal([0], [[1]]);
+	var p2 = mvNormal([0], [[1]]);
+	var dp1 = sphericalDistance(p, preferred1);
+	var dp2 = sphericalDistance(p, preferred2);
+	
+	return 0.5 * p1([dp1]) + 0.5 * p2([dp2]); //Math.min(sphericalDistance(p, preferred1), sphericalDistance(p, preferred2));
+
+}
+
+gaussian = function(mu, sigma) {
+	return function(x) {
+		var dx = x[0] - mu[0];
+		var dy = x[1] - mu[1];
+		return Math.exp(-(dx*dx/(2*sigma[0]) + dy*dy/2*sigma[1]));
+	}
+}
+
+normal = function(mu, sd) {
+	return mvNormal([mu], [[sd]]);
+}
+
+mvNormal = function(mu, S) {
+	var Sinv = numeric.inv(S);
+	var Sdet = numeric.det(S);
+	var k = mu.length;
+	var A = Math.sqrt(Math.pow(2*Math.PI, k) * Sdet);
+	A = 1/A;
+	return function(x) {
+		var xx = x;
+		if (!(x instanceof Array)) {
+			xx = [x];
+		}
+		var dx = numeric.sub(xx, mu);
+		var v = numeric.dot(numeric.dot(numeric.transpose([dx]), Sinv), [dx]);
+		return A * Math.exp(-0.5 * v[0][0]);
+	}
+}
+
+spherical = function(cartesian) {
+	var r = vec3.length(cartesian);
+	var theta = Math.atan2(cartesian[1], cartesian[0]);
+	var phi = Math.acos(cartesian[2]/r);
+	return vec3.fromValues(r, theta, phi);
+}
+
 getIndexFromResidue = function(residue) {
 	return residue.chain().name() + residue.num();
 }
 
-PV3DPanel.prototype.computePCA = function(view) {
-	//view = view || this.geom;
-
+PV3DPanel.prototype.computePCA = function() {
 	var X = [];
 
 	//var feature = pViewer.renderAs('feature', view, this.type);
 	this.geom.eachCentralAtom(function(atom, pos) {
 		X.push([pos[0], pos[1], pos[2]]);
 	});
-	pViewer.rm('feature');
+//	pViewer.rm('feature');
 
 	console.log("computing PCA for: " + X.length + "residues");
 
@@ -1028,17 +1118,13 @@ PV3DPanel.prototype.computePCA = function(view) {
 	}
 
 	// compute and subtract column means
-	var XT = numeric.transpose(X);
-	var mean = XT.map(function(row) {return numeric.sum(row) / row.length;});
-	X = numeric.transpose(XT.map(function(row, i) {return numeric.sub(row, mean[i]);}));
-
-	var sigma = numeric.dot(numeric.transpose(X), X);
-	var svd = numeric.svd(sigma);
+	var svd = pca(X);
 	var V = svd.V;
 	var right = V[0];
 	var up = V[1];
 	var view = V[2];
-	var m = mat4.fromValues(right[0], right[1], right[2], 0,
+	var m = mat4.fromValues(
+			right[0], right[1], right[2], 0,
 			up[0], up[1], up[2], 0,
 			view[0], view[1], view[2], 0,
 			0, 0, 0, 1);
@@ -1052,6 +1138,16 @@ PV3DPanel.prototype.computePCA = function(view) {
 				0, 0, 0, 1);
 	}
 	return(m);
+}
+
+function pca(X) {
+	var XT = numeric.transpose(X);
+	var mean = XT.map(function(row) {return numeric.sum(row) / row.length;});
+	X = numeric.transpose(XT.map(function(row, i) {return numeric.sub(row, mean[i]);}));
+
+	var sigma = numeric.dot(numeric.transpose(X), X);
+	var svd = numeric.svd(sigma);
+	return svd;
 }
 
 function hammersleySampler(n) {
@@ -1071,13 +1167,14 @@ function hammersleySampler(n) {
 		var phirad = phi * 2 * Math.PI;
 //		var phi = Math.acos(t);
 		var p = vec3.fromValues(st * Math.cos(phirad), st*Math.sin(phirad), t);
+//		points.push(vec3.fromValues(1, phirad, Math.acos(t)));
 		points.push(p);
 
 	}
 	return points;
 }
 
-// returns spherical coordinates
+//returns spherical coordinates
 function haltonSampler(n, p2) {
 	var points = [];
 	for (var k = 0, pos = 0; k < n; ++k) {
@@ -1100,14 +1197,29 @@ function haltonSampler(n, p2) {
 		var phirad = phi * 4 * Math.PI;
 		var p = vec3.fromValues(st * Math.cos(phirad), st*Math.sin(phirad), t);
 		var r = vec3.length(p);
-//		points.push(vec3.fromValues(r, phirad, Math.acos(t)));
-		points.push(p);
+		points.push(vec3.fromValues(r, phirad, Math.acos(t)));
+//		points.push(p);
 	}
-	
+
 	return points;
 }
 
+sphericalToRotation = function(point) {
+	var t = Math.cos(point[2]);
+	var st = Math.sqrt(1 - t*t);
+	var phirad = point[1];
+	var p = vec3.fromValues(st * Math.cos(phirad), st*Math.sin(phirad), t);
+	var start = vec3.fromValues(0, 0, 1);
+	var q = quat.create();
+	var m = mat4.create();
+	var tmpVec = vec3.create();
+	vec3.normalize(tmpVec, p);
+	return mat4.fromQuat(m, quat.rotationTo(q, tmpVec, start));
+}
+
 function createRandomRotations(n) {
+
+	return hammersleySampler(n);
 
 	var start = vec3.fromValues(0, 0, 1);
 	var points = hammersleySampler(n);
@@ -1118,19 +1230,19 @@ function createRandomRotations(n) {
 		vec3.normalize(tmpVec, p);
 		return mat4.fromQuat(m, quat.rotationTo(q, tmpVec, start));
 	});
-	
+
 //	var twoPI = 2 * Math.PI;
 //	var ret = [];
 //	for (var i = 0; i < n; ++i) {
-//		var u1 = Math.random();
-//		var u2 = Math.random();
-//		var u3 = Math.random();
-//		var st = Math.sqrt(1-u1);
-//
-//		var q = quat.fromValues(st*Math.sin(twoPI*u2),st*Math.cos(twoPI*u2), Math.sqrt(u1)*Math.sin(twoPI*u3), Math.sqrt(u1)*Math.cos(twoPI*u3));
-//		var auxRotation = mat4.create();
-//		mat4.fromQuat(auxRotation,q);
-//		ret.push(auxRotation);
+//	var u1 = Math.random();
+//	var u2 = Math.random();
+//	var u3 = Math.random();
+//	var st = Math.sqrt(1-u1);
+
+//	var q = quat.fromValues(st*Math.sin(twoPI*u2),st*Math.cos(twoPI*u2), Math.sqrt(u1)*Math.sin(twoPI*u3), Math.sqrt(u1)*Math.cos(twoPI*u3));
+//	var auxRotation = mat4.create();
+//	mat4.fromQuat(auxRotation,q);
+//	ret.push(auxRotation);
 //	}
 	return(ret);
 }

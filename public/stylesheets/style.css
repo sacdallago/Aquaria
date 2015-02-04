@@ -274,6 +274,9 @@ div#structurematches.panel {
 /* 	height: 900px; */
 }
 
+.bg_helpdoc {
+	z-index: 9999999;
+}
 .hidden { display:none; }
 
 span.content p , div.panel p {
@@ -365,7 +368,7 @@ span.content p, p.expandable, p.hidden {
 	color: #666;
 }
 
-a, p#psyns a, p#osyns a { color: #08C; text-decoration: none; }
+a, p#psyns a, p#osyns a, .simulatelink { color: #08C; text-decoration: none; }
 
 .fakelink:hover, a:hover, p#psyns a:hover, span.explanation a:hover, p#osyns a:hover { text-decoration: underline; }
 
@@ -961,12 +964,32 @@ div.chardinjs-tooltiptext a {	color:#9DF;	}
 
 div.chardinjs-tooltiptext h2 {	color:#333;	}
 
+#helptable {
+ border-spacing: 00px;
+ border-collapse: separate;
+}
+#helptable td {
+  padding: 15px;
+	vertical-align: top;
+}
+
 div.bg_helpdoc { 
 	background: #579; 
 	border-radius: 5px; 
 	padding: 6px 0 12px 10px;
-	width:130%;
+	width:200%;
 }
+/* bring items close together */
+.bg_helpdoc h2, .bg_helpdoc p { 
+    margin: 0;
+    padding: 0;
+    bottom: 0;
+}
+/* add space between each group of items */
+.bg_helpdoc h2 { 
+    padding-top: 8px;
+}
+
 div.ruler { margin-bottom: 2px; }
 
 div[data-id="titleBar3Dview"].chardinjs-helper-layer.chardinjs-bottom { border-bottom: 0 none;}

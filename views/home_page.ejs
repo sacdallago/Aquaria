@@ -13,7 +13,7 @@
 	
 	  <script src="/javascripts/chardinjs.mod.js"></script>
 	
-	<title>Aquaria: Integrating Sequences, Features, and 3D Structures</title>
+	<title>Aquaria: Simplifying insight from protein structures</title>
 	<link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
 	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 	<script> var ltIE9 = false;  
@@ -95,8 +95,8 @@
 					<div id="wait"><img src="/images/aquaria-spin.gif" alt="Loading" title="Loading data..."></div>
 				</div>
 				
-				<p id="intro"><span class="small"><a href="javascript:showAbout();">Updated: <span class="lastupdate">1 Jan 2015</span></a></span><br>
-				<a href="javascript:showAbout();" style="color:#DDD;">About</a> | <span id="issuesButton" class="fakelink" style="color:#DDD;">Report an Issue</span> | <a href="javascript:showExplanations();" style="color:#DDD;">Help</a>
+				<p id="intro"><span class="small"><a href="javascript:showAbout();">Updated: <span class="lastupdate">3rd Feb 2015</span></a></span><br>
+				<a href="javascript:showAbout();" style="color:#DDD;">About</a> | <a target='_blank' style="color:#DDD;" href='https://www.biostars.org/t/aquaria'>Forum</a> | <a href="javascript:showExplanations();" style="color:#DDD;">Help</a>
 				<br></p>
 				<div class="panel" id="searchByName">
 					<h3>Specify a Protein</h3>
@@ -132,19 +132,34 @@
 			</div>
 			<div id="center">
 			  <div class="panel" id="structureviewer">
-				<h3 id="titleBar3Dview"  data-intro="3D view: initially shows PDB structure estimated to be most relevant for the specified protein. 
-				Hue is used to indicate secondary structure: yellow = strand, blue = helix, and green = coil. Lightness is used to indicate amino acid 
-				substitutions between the specified protein and PDB structure: slightly dark = conserved, very dark = non-conserved, white = insertions, 
-				and semi-transparent = other chains. <br><p>&nbsp;</p>
-				<div class='bg_helpdoc'>
-				<h2>Installing Aquaria</h2>
-					<p><a target='_blank' href='https://docs.google.com/document/d/1waNOvw442Bwncx_FlMJAATH35aJxXpxu0iRcrZt8hrQ/pub'>On Mac OS</a></p>
-					<p><a target='_blank' href='https://docs.google.com/document/d/1wZo-76MEPyoDj-9uAxHyz4y2f4_6ZR89uJcPBQvVUQc/pub'>On Windows</a></p>
-				<h2>Using Aquaria</h2>
-					<p><a target='_blank' href='/help/Aquaria3D_QR_v1.pdf'>Quick Reference Card for 3D Viewer</a></p>
-					<p><a target='_blank' href='https://docs.google.com/document/d/1566Ub_-WAXMcuOA8gmb2-X9JmYfWuZarrgneNVaBQd8/pub'>Aquaria API</a></p>
-					<p><a target='_blank' href='https://docs.google.com/document/d/1NvuLtr9D_gbPRps5QUcqbtNWuX6xwGahf7O3MTiYAk4/pub'>The Molecular Control Toolkit</a></p>
-				</div>" 
+				<h3 id="titleBar3Dview" 
+					data-intro = "
+						3D view: initially shows PDB structure estimated to be most relevant for the specified protein. 
+						Hue is used to indicate secondary structure: yellow = strand, blue = helix, and green = coil. Lightness is used to indicate amino acid substitutions between the specified protein and PDB structure: slightly dark = conserved, very dark = non-conserved, white = insertions, and semi-transparent = other chains. <br><p>&nbsp;</p>
+							<div class='bg_helpdoc'>
+							<table id='helptable'><tr><td>
+								<h2>Videos</h2>
+									<p><a target='_blank' href='http://youtu.be/FAQ3yVGYSzY'>Quick introduction (6:16)</a></p>
+									<p><a target='_blank' href='http://youtu.be/PIs1qyV_dIQ'>General overview (44:25)</a></p>
+									<p><a target='_blank' href='http://youtu.be/XU_6TWM9ke8'>Leap Motion controller (2:18)</a></p>
+								<h2>Installation</h2>
+									<p><a target='_blank' href='https://docs.google.com/document/d/1waNOvw442Bwncx_FlMJAATH35aJxXpxu0iRcrZt8hrQ/pub'>On Mac OS</a></p>
+									<p><a target='_blank' href='https://docs.google.com/document/d/1wZo-76MEPyoDj-9uAxHyz4y2f4_6ZR89uJcPBQvVUQc/pub'>On Windows</a></p>
+								<h2>Documentation</h2>
+									<p><a target='_blank' href='/help/Aquaria3D_QR_v1.pdf'>Mouse & keyboard controls</a></p>
+									<p><a target='_blank' href='https://docs.google.com/document/d/1566Ub_-WAXMcuOA8gmb2-X9JmYfWuZarrgneNVaBQd8/pub'>Aquaria API</a></p>
+									</td><td>
+                <h2>Publication</h2>
+                  <p><a target='_blank' href='http://nature.com/articles/nmeth.3258'>O&rsquo;Donoghue et al., Nature Methods (2015)</a></p>
+								<h2>Forum</h2>
+									<p><a target='_blank' href='https://www.biostars.org/t/aquaria'>View forum</a></p>
+									<p><a target='_blank' href='https://www.biostars.org/p/new/post/?tag_val=aquaria'>Ask a question</a></p>						
+								<h2>Bugs</h2>
+									<p><a href='https://ccg.garvan.org.au/jira/browse/AQ-2?jql=project%20%3D%20AQ%20AND%20resolution%20%3D%20Unresolved%20ORDER%20BY%20assignee%20ASC%2C%20priority%20DESC'>View known bugs</a></p>
+                  <p><a href='javascript:void(0);' onclick='window.showCollectorDialog();'>Report new bug</a></p>
+                  </td></tr></table>
+							</div>
+					" 
 					data-position="bottom" >3D structure <span id="structureviewerexplanation" class="explanation"></span>
 				<div class="rightHeaderBar">
 				<!--
@@ -191,9 +206,9 @@
 						<h3>About Aquaria <span class='x'>&nbsp;</span></h3>
 						<p id="starter"><img src="/images/logo-large.png" width="605" height="167" alt="Aquaria"></p>
 						<p style="text-align: center; margin-bottom: 1.8em;"><strong>Simplifying the generation of insight from protein structures</strong></p>
-						<p style="text-align: center; margin-bottom: 1.8em;">Se&aacute;n I. O&rsquo;Donoghue<sup>1,2,3</sup>, Kenneth Sabir<sup>2,3</sup>, Christian Stolte<sup>1</sup>, Benjamin Wellmann<sup>4</sup>, Maria Kalemanov<sup>4</sup>,<br>Fabian Buske<sup>2,7</sup>, Julian Heinrich<sup>1</sup>, Manfred Roos<sup>4</sup>, Nelson Pereira<sup>5,6</sup>, Burkhard Rost<sup>4</sup>, Andrea Schafferhans<sup>4</sup><br>
+						<p style="text-align: center; margin-bottom: 1.8em;">Se&aacute;n I. O&rsquo;Donoghue<sup>1,2,3</sup>, Kenneth Sabir<sup>2,3</sup>, Christian Stolte<sup>1</sup>, Benjamin Wellmann<sup>4</sup>, Maria Kalemanov<sup>4</sup>,<br>Fabian Buske<sup>2,7</sup>, Julian Heinrich<sup>1</sup>, Manfred Roos<sup>4</sup>, Nelson Perdig&atilde;o<sup>5,6</sup>, Burkhard Rost<sup>4</sup>, Andrea Schafferhans<sup>4</sup><br>
 						<br><script src="/javascripts/email.js"></script><br>
-						<br><strong>Updated: <span class="lastupdate">1 Jan 2015</span></strong>
+						<br><strong>Updated: <span class="lastupdate">3rd Feb 2015</span></strong>
 						<br>This indicates when the Aquaria database (PSSH2) was last calculated. 
 						<br>PDB structures released since then are not yet available in Aquaria. 
 						<br>The next update is planned for <span class="nextupdate">1 March 2015</span>.</p>

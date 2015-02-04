@@ -7,6 +7,10 @@ var MenuBar = function (root, callbacks) {
 //       {'colour': 'Color'},
 //       ];
   
+  $('#entropyWeight').val(1);
+  $('#preferredWeight').val(1);
+  $('#distanceWeight').val(1);
+  
   $('.nav li').hover(
       function () { //appearing on hover
         $('ul', this).fadeIn();
@@ -40,18 +44,22 @@ var MenuBar = function (root, callbacks) {
     callbacks['colourScheme']('element');
   });
   
-  $('#MenuLockedView').click(function(e) {
-	 callbacks['view']('locked');
-  });
-  $('#MenuPCAView').click(function(e) {
-	 callbacks['view']('pca');
-  });
-  $('#MenuEntropyView').click(function(e) {
-	 callbacks['view']('entropy',{samples: $('#Samples').val()});
-  });
-  $('#MenuAutoView').click(function(e) {
-		 callbacks['view']('auto');
-  });
+//  $('#MenuLockedView').click(function(e) {
+//	 callbacks['view']('locked');
+//  });
+//  $('#MenuPCAView').click(function(e) {
+//	 callbacks['view']('pca');
+//  });
+//  $('#MenuEntropyView').click(function(e) {
+//	 callbacks['view']('entropy');
+//  });
+//  $('#MenuAutoView').click(function(e) {
+//		 callbacks['view']('auto',{
+//			 entropyWeight: $('#entropyWeight').val(),
+//			 preferredWeight: $('#preferredWeight').val(),
+//			 distanceWeight: $('#distanceWeight').val()
+//			 });
+//  });
   
 }
 
