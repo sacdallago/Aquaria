@@ -655,31 +655,31 @@ fetch_das_annotation_from_servers = function(primary_accession,
 	}, function(res) {
 		// getting all the sequence specific annotations
 		var annotations = res.GFF.SEGMENT[0].FEATURE;
-
+		var clustered_annotations = new Array();
 		sequence_annotations = {};
 		protein_annotations = {};
 		
-		for ( var i = 0; i < annotations.length; i++) {
-			var ann = annotations[i];
-			if (!ann.START || !ann.END) {
-				add_annotation(primary_accession, protein_annotations, ann,
-						das_server['Server'], das_server['Categories']);
-			} else {
-				add_annotation(primary_accession, sequence_annotations, ann,
-						das_server['Server'], das_server['Categories']);
+		if (typeof annotations !== 'undefined' && annotations !== null){
+
+			for ( var i = 0; i < annotations.length; i++) {
+				var ann = annotations[i];
+				if (!ann.START || !ann.END) {
+					add_annotation(primary_accession, protein_annotations, ann,
+							das_server['Server'], das_server['Categories']);
+				} else {
+					add_annotation(primary_accession, sequence_annotations, ann,
+							das_server['Server'], das_server['Categories']);
+				}
 			}
+	
+			// console.log("DAS:" + Object.size(protein_annotations)
+			// + ' protein annotation and '
+			// + Object.size(sequence_annotations)
+			// + ' position specific annotations fetched');
+
+			clustered_annotations = clusterRegions(sequence_annotations,
+					das_server['Categories']);
 		}
-
-		// console.log("DAS:" + Object.size(protein_annotations)
-		// + ' protein annotation and '
-		// + Object.size(sequence_annotations)
-		// + ' position specific annotations fetched');
-		//
-		// console.log(sequence_annotations);
-		var clustered_annotations = clusterRegions(sequence_annotations,
-				das_server['Categories']);
-
-		// console.log(clustered_annotations);
 
 		finishServer(clustered_annotations, primary_accession,
 				uniprot_sequence_MD5_hash, featureCallback);
