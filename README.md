@@ -20,8 +20,10 @@ Installation
 	Open Terminal and cd to root of Aquaria directory
 	run:
 	 npm install
-  copy site.json.template to site.json
-  edit site.json and put in your hostname and port.
+	 npm run setupTemplates
+	 npm run updateJars
+	 
+  you may edit the site.json and change the port if required.
   
 -------
 Operation
