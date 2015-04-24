@@ -201,9 +201,9 @@ IDRPanel.prototype.changeViewerSize = function(w, h) {
 
 
 function getPDBURL(pdbID, biounit) {
-	var url = "http://pdb.org:80/pdb/files/" + pdbID + ".pdb";
+	var url = "http://rcsb.org:80/pdb/files/" + pdbID + ".pdb";
 	if (biounit > 0) {
-//		url = "http://pdb.org:80/pdb/files/" + pdbID + ".pdb" + biounit ;
+//		url = "http://rcsb.org:80/pdb/files/" + pdbID + ".pdb" + biounit ;
 	}
 	return url;
 }
