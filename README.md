@@ -11,18 +11,30 @@ Pre Installation
 	Click "Components".
 	Click "Install" on the command line tools line.
 
-- Install nodejs
+- Install npm and nodejs
 	from http://nodejs.org/
+curl -L https://npmjs.org/install.sh | sudo sh
+
+sudo npm cache clean -f
+sudo npm install -g n	
+
+Aquaria is using node version v0.10.33
+sudo n 0.10.33
+	
+- install browserify
+  sudo npm install -g browserify@9.0.3
 
 --------
 Installation
+ - git clone https://github.com/ODonoghueLab/Aquaria.git
+ 
 - load node prereqs
 	Open Terminal and cd to root of Aquaria directory
 	run:
 	 - npm install
 	 - npm run setupTemplates
 	 - npm run updateJars
-	 - build.sh
+	 - ./build.sh
   you may edit the site.json and change the port if required.
   
 -------
