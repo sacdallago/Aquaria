@@ -320,22 +320,32 @@ PV3DPanel.prototype.reload =  function(attributes) {
 	pViewer.fitParent();
 //	pViewer.resize(attributes.width, attributes.height);
 
-//	var url = "http://pdb.org:80/pdb/files/" + attributes.pdb_id + ".pdb.gz";
+//	var url = "http://rcsb.org:80/pdb/files/" + attributes.pdb_id + ".pdb.gz";
 //	if (biounit > 0) {
-//	url = "http://pdb.org:80/pdb/files/" + attributes.pdb_id + ".pdb" + attributes.biounit + ".gz";
+//	url = "http://rcsb.org:80/pdb/files/" + attributes.pdb_id + ".pdb" + attributes.biounit + ".gz";
 //	}
+	var beforeSend = function(xhr) {xhr.setRequestHeader('Access-Control-Allow-Origin', '*')};
 
-	$.ajax({ url : attributes.url, success : function(data) {
-		structure = io.pdb(data);
-		pViewer.clear();
-		that.setColourScheme(that.colourSchemeName);
-		that.loadType(that.type, structure, attributes);
-		that.initFeatureView(structure);
-		pViewer.autoZoom();
-		that.blankApplet(false);
-		that.setViewMode(that.viewMode);
-		that.initialised = true;
-	}});
+	$.ajax({ 
+	  url : attributes.url, 
+	  success : function(data) {
+  		structure = io.pdb(data);
+  		pViewer.clear();
+  		that.setColourScheme(that.colourSchemeName);
+  		that.loadType(that.type, structure, attributes);
+  		that.initFeatureView(structure);
+  		pViewer.autoZoom();
+  		that.blankApplet(false);
+  		that.setViewMode(that.viewMode);
+  		that.initialised = true;
+	  }
+//	  'beforeSend' : beforeSend,
+//	  'headers': { 
+//	      'Access-Control-Allow-Origin': '*',
+//	      "Access-Control-Allow-Headers": "X-Requested-With"
+//	  }
+//    crossDomain: true
+	});
 };
 
 PV3DPanel.prototype.loadType =  function(type, structure, attributes) {
@@ -450,9 +460,9 @@ PV3DPanel.prototype.generateAttributes = function(threeDWidth, threeDHeight, pdb
 
 
 function getPDBURL(pdbID, biounit) {
-	var url = "http://pdb.org:80/pdb/files/" + pdbID + ".pdb";
+	var url = "http://www.rcsb.org/pdb/files/" + pdbID + ".pdb";
 	if (biounit > 0) {
-		url = "http://pdb.org:80/pdb/files/" + pdbID + ".pdb" + biounit ;
+		url = "http://www.rcsb.org/pdb/files/" + pdbID + ".pdb" + biounit ;
 	}
 	return url;
 }

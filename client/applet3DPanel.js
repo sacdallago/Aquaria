@@ -180,9 +180,9 @@ var Applet3DPanel = function (attachToDiv) {
 		if (document.URL.indexOf('/leap') > -1) {
 			interactive = 'leap';
 		}
-		var url = "http://pdb.org:80/pdb/files/" + pdb_id + ".pdb.gz";
+		var url = "http://rcsb.org:80/pdb/files/" + pdb_id + ".pdb.gz";
 		if (biounit > 0) {
-			url = "http://pdb.org:80/pdb/files/" + pdb_id + ".pdb" + biounit + ".gz";
+			url = "http://rcsb.org:80/pdb/files/" + pdb_id + ".pdb" + biounit + ".gz";
 		}
 
 		var attributes = {

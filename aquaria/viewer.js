@@ -58,7 +58,7 @@ var createArguments = function (args) {
   if (args.biounit === 0) {
     biounitLookup = '';
   }
-  var structures = 'structures{' + args.pdb_id + ',http://pdb.org:80/pdb/files/' + args.pdb_id + '.pdb' + biounitLookup + '.gz,,' + args.transform + ';}'
+  var structures = 'structures{' + args.pdb_id + ',http://rcsb.org:80/pdb/files/' + args.pdb_id + '.pdb' + biounitLookup + '.gz,,' + args.transform + ';}'
   setVariable(args, 'structures', structures);
   setVariable(args, 'instanceId');
   setVariable(args, 'sequenceAlignments');
