@@ -1,6 +1,7 @@
 //var PVSelector = require('./pvSelector');
 var seedrandom = require('seedrandom');
 var menuBar = require('./pv/menuBar');
+var Selector = require('./pv/selector');
 var numeric = require('numeric');
 var rng = seedrandom('aquaria', {global: true});
 
@@ -415,7 +416,7 @@ PV3DPanel.prototype.colorBySSAndHomology = function(conservations) {
 		that.conservedColourMap[key] = interpolateColour(that.identicalColourMap[key], that.notConserved, 0.55);
 	});
 
-	return new ColorOp(function(atom, out, index) {
+	return new pv.color.ColorOp(function(atom, out, index) {
 		var residue = atom.residue();
 		var colour = that.getColourForResidue(residue);
 		assignColour(out, index, colour);
@@ -676,7 +677,7 @@ PV3DPanel.prototype.gestures = function () {
 }
 
 var  byElementWithBlack = function() {
-	return new ColorOp(function(atom, out, index) {
+	return new pv.color.ColorOp(function(atom, out, index) {
 		var ele = atom.element();
 		if (ele === 'C') {
 			out[index] = 0.0; 
