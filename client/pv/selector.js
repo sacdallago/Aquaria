@@ -191,8 +191,8 @@ Selector.prototype.atomSelected = function(picked, originalEvent) {
       this.addResidueSelection([residue]);
     }
     this.lastResiduePicked = residue;
-    this.pViewer.requestRedraw();
   }
+  this.pViewer.requestRedraw();
 };
 
 module.exports = Selector;
