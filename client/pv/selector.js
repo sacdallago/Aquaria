@@ -66,7 +66,7 @@ var Selector = function(structure, pViewer, geom, options) {
     });
   }
   if (this.options.zoomOnEnter) {
-    pViewer.on('keypress', function(originalEvent) {
+    pViewer.addListener('keypress', function(originalEvent) {
       console.log('keypressed');
       if (originalEvent.keyCode === 13) {
         

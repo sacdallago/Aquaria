@@ -6521,19 +6521,23 @@ viewer = function (UniqueObjectIdPool, canvas, FrameBuffer, PoolAllocator, Cam, 
       this._objects = [];
     },
     addListener: function (eventName, callback) {
-      var callbacks = this.listenerMap[eventName];
-      if (typeof callbacks === 'undefined') {
-        callbacks = [];
-        this.listenerMap[eventName] = callbacks;
-      }
-      if (callback === 'center') {
-        var cb = utils.bind(this._mouseHandler, this._mouseHandler._centerOnClicked);
-        callbacks.push(cb);
+      if (eventName === 'keypress' || eventName === 'keydown' || eventName === 'keyup') {
+        document.addEventListener(eventName, utils.bind(this, callback), false);
       } else {
-        callbacks.push(callback);
-      }
-      if (this._initialized && eventName === 'viewerReady') {
-        callback(this, null);
+        var callbacks = this.listenerMap[eventName];
+        if (typeof callbacks === 'undefined') {
+          callbacks = [];
+          this.listenerMap[eventName] = callbacks;
+        }
+        if (callback === 'center') {
+          var cb = utils.bind(this._mouseHandler, this._mouseHandler._centerOnClicked);
+          callbacks.push(cb);
+        } else {
+          callbacks.push(callback);
+        }
+        if (this._initialized && eventName === 'viewerReady') {
+          callback(this, null);
+        }
       }
     },
     _dispatchEvent: function (event, newEventName, arg) {
