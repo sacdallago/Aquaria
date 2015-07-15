@@ -297,7 +297,8 @@ PV3DPanel.prototype.load = function (attributes) {
 		near: 0.1,
 		animateTime: 500,
 		far: 10000,
-		background: [0.8, 0.8, 0.8]
+		background: [0.8, 0.8, 0.8],
+		style: 'phong'
 			});
 	pViewer.options('fog', false);
 	this.reload(attributes);
