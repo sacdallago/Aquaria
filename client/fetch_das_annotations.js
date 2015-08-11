@@ -37,7 +37,7 @@ var das_servers = [
 				},
 				"Site" : {
 					"track" : "multi_track",
-					"color" : "multi_color" 
+					"color" : "multi_color"
 				},
 				"Amino acid modification" : {
 					"track" : "multi_track",
@@ -86,7 +86,7 @@ var das_servers = [
 		// "Categories" : {
 		// "coverage" : { "track":"multi_track", "color":"multi_color"}
 		// }
-		}		
+		}
 		];
 
 // available set of colors
@@ -148,20 +148,20 @@ var add_external_annotation = function(primary_accession, json_object, ann, das_
 	var categorytype = category.trim().replace(")","").split("(");
 	// add emtpy category
 	if (categorytype.length == 1){
-		categorytype.push("");	
+		categorytype.push("");
 	}
-	var ann_key = das_server + "|:|" + categorytype[0] + "|:|" + categorytype[1];	
-		
+	var ann_key = das_server + "|:|" + categorytype[0] + "|:|" + categorytype[1];
+
 	for ( var i = 0; i < ann.Features.length; i++) {
 		var f = ann.Features[i];
-		
+
 		var feat_name = f.Name;
 		var feat_label = f.Name.replace(/_/g, ' ');
 		var feat_desc = stripScripts(f.Description);
 		var feat_start;
 		var feat_end;
 		var feat_color;
-		
+
 		if (f.Color){
 			// if the JSON file specifies a color for this individual feature, then use it
 			feat_color = f.Color;
@@ -183,15 +183,15 @@ var add_external_annotation = function(primary_accession, json_object, ann, das_
 			feat_start = parseInt( f.Residues);
 			feat_end = parseInt( f.Residues);
 		}
-		
+
 		var feat_url = [];
 		if (ann.Source) {
 			feat_url.push({
-				"href" : ann.URL, 
+				"href" : ann.URL,
 				"text" : ann.Source
 			});
 		}
-	
+
 		var new_region = {
 				"color" : feat_color,
 				"name" : feat_name,
@@ -203,7 +203,7 @@ var add_external_annotation = function(primary_accession, json_object, ann, das_
 				"urls" : feat_url,
 				"show" : true
 			};
-		
+
 		if (!(ann_key in json_object)) {
 			// add new annotation type
 			json_object[ann_key] = {
@@ -228,7 +228,7 @@ var add_external_annotation = function(primary_accession, json_object, ann, das_
 var add_annotation = function(primary_accession, json_object, ann, das_server,
 		categories) {
 	var filter_key;
-	
+
 	if (ann.TYPE.category !== undefined){
 		var categorytype = capitaliseFirstLetter(ann.TYPE.category.replace(
 				/ *\(.*?\) */g, ""));
@@ -237,7 +237,7 @@ var add_annotation = function(primary_accession, json_object, ann, das_server,
 		// category not defined
 		return
 	}
-			
+
 	if (hasOwnProperty(categories, categorytype + ";" + categorytext)) {
 		filter_key = categorytype + ";" + categorytext;
 	} else if (hasOwnProperty(categories, categorytype)) {
@@ -330,7 +330,7 @@ var add_annotation = function(primary_accession, json_object, ann, das_server,
 
 /**
  * optimize color handling for multi-track features
- * 
+ *
  * @param category
  * @param multitracks
  */
@@ -368,7 +368,7 @@ function optimizeColors(category, multitracks) {
  */
 function clusterRegions(sequence_annotations, categories) {
 	var clusters = new Array();
-	
+
 	for (var annotation in sequence_annotations) {
 		var filter_key;
 		if (hasOwnProperty(categories,
@@ -472,7 +472,7 @@ function clusterRegions(sequence_annotations, categories) {
 
 /**
  * This function compares two regions based of their size
- * 
+ *
  * @param a
  *            region 1
  * @param b
@@ -488,9 +488,9 @@ function compareAnnotationRegions(a, b) {
 }
 
 /**
- * 
+ *
  * This function calculates the size of an object
- * 
+ *
  * @param obj
  * @returns {Number}
  */
@@ -505,7 +505,7 @@ Object.size = function(obj) {
 
 /**
  * This function checks if an object has a given property
- * 
+ *
  * @param obj
  *            object
  * @param prop
@@ -535,7 +535,7 @@ module.exports = function(primary_accession, uniprot_sequence_MD5_hash,
 	// blah blah HANDLE CACHE HERE
 	var key = "FEATURE_" + primary_accession + getUrlParameter("features");
 	var cacheValue = cache.read(key);
-	
+
 	if (cacheValue) {
 		// return cache result for immediate display
 		featureCallback(cacheValue);
@@ -559,7 +559,7 @@ var processNextServer = function(primary_accession, uniprot_sequence_MD5_hash,
 	// get DAS servers first
 	if (currentServer < das_servers.length) {
 		isFetchingFromServer = das_servers[currentServer]['Server'];
-		
+
 		console.log("************* isFetchingFromServer");
 		if (isFetchingFromServer == "External Features (JSON)"){
 			// check URL for json url
@@ -567,12 +567,12 @@ var processNextServer = function(primary_accession, uniprot_sequence_MD5_hash,
 
 		} else {
 			console.log("process " + isFetchingFromServer);
-	
+
 			fetch_das_annotation_from_servers(primary_accession,
 					uniprot_sequence_MD5_hash, das_servers[currentServer],
 					featureCallback);
 		}
-	} 
+	}
 	else {
 		console.log("finish DAS");
 		var key = "FEATURE_" + primary_accession + getUrlParameter("features");
@@ -623,12 +623,12 @@ function parseExternalFeatures(primary_accession, uniprot_sequence_MD5_hash, das
 
 	finishServer(clustered_annotations, primary_accession,
 			uniprot_sequence_MD5_hash, featureCallback);
-} 
+}
 
 function checkURLForFeatures(primary_accession, uniprot_sequence_MD5_hash, das_server, featureCallback){
 	var url = getUrlParameter("features");
 	if (url){
-	  $.getJSON( url, function (responseJSON) { //After load, parse data returned by xhr.responseText            
+	  $.getJSON( url, function (responseJSON) { //After load, parse data returned by xhr.responseText
 			parseExternalFeatures(primary_accession, uniprot_sequence_MD5_hash, das_server, featureCallback, responseJSON);
 	    });
 	} else {
@@ -654,33 +654,34 @@ fetch_das_annotation_from_servers = function(primary_accession,
 		segment : primary_accession
 	}, function(res) {
 		// getting all the sequence specific annotations
-		var annotations = res.GFF.SEGMENT[0].FEATURE;
-		var clustered_annotations = new Array();
-		sequence_annotations = {};
-		protein_annotations = {};
-		
-		if (typeof annotations !== 'undefined' && annotations !== null){
+		if (hasOwnProperty(res, "GFF") && hasOwnProperty(res.GFF, "SEGMENT")){
+			var annotations = res.GFF.SEGMENT[0].FEATURE;
+			var clustered_annotations = new Array();
+			sequence_annotations = {};
+			protein_annotations = {};
 
-			for ( var i = 0; i < annotations.length; i++) {
-				var ann = annotations[i];
-				if (!ann.START || !ann.END) {
-					add_annotation(primary_accession, protein_annotations, ann,
-							das_server['Server'], das_server['Categories']);
-				} else {
-					add_annotation(primary_accession, sequence_annotations, ann,
-							das_server['Server'], das_server['Categories']);
+			if (typeof annotations !== 'undefined' && annotations !== null){
+
+				for ( var i = 0; i < annotations.length; i++) {
+					var ann = annotations[i];
+					if (!ann.START || !ann.END) {
+						add_annotation(primary_accession, protein_annotations, ann,
+								das_server['Server'], das_server['Categories']);
+					} else {
+						add_annotation(primary_accession, sequence_annotations, ann,
+								das_server['Server'], das_server['Categories']);
+					}
 				}
+
+				// console.log("DAS:" + Object.size(protein_annotations)
+				// + ' protein annotation and '
+				// + Object.size(sequence_annotations)
+				// + ' position specific annotations fetched');
+
+				clustered_annotations = clusterRegions(sequence_annotations,
+						das_server['Categories']);
 			}
-	
-			// console.log("DAS:" + Object.size(protein_annotations)
-			// + ' protein annotation and '
-			// + Object.size(sequence_annotations)
-			// + ' position specific annotations fetched');
-
-			clustered_annotations = clusterRegions(sequence_annotations,
-					das_server['Categories']);
 		}
-
 		finishServer(clustered_annotations, primary_accession,
 				uniprot_sequence_MD5_hash, featureCallback);
 
