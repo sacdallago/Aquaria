@@ -6,8 +6,8 @@
 	"dbuser"     	: "read_only",
 	"dbpassword" 	: "Aquaria_4_the_win!",
 	"database" 	: "aquaria",
-	"major_version"	: "0",
-	"minor_version"	: "1",
+	"major_version"	: "1",
+	"minor_version"	: "0",
   "googleHostedService" : "",
   "googleAnalyticsID" : "[your analytics ID]",
   "googleAnalyticsHostname" : "[your analytics hostname]"
