@@ -101,12 +101,6 @@
 				<div class="panel" id="searchByName">
 					<h3>Specify a Protein</h3>
 					<span class="content">
-<!--						<span id="tabs" class="aquaria">
-							<ul>
-								<li><a href="#tabs-1">By Name or ID</a></li>
-								<li><a href="#tabs-2">By Sequence</a></li>
-							</ul>
-							<div id="tabs-1"> -->
 								<form id="myform" name="myform" ACTION="#" method="post"> 
 									<p id="input1"><input class="search" type="text" id="protein_syn_input" name="protein_syn_input" placeholder="Protein name or ID" autocomplete="off" data-intro="START HERE - specify a protein name (or UniProt identifier, or PDB ID), then press 'Enter'." data-position="right" /></p>		
 									<div id='psyns'><p>(example: <a href="javascript:fillin('p53');">p53</a> or <a href="javascript:fillin('P04637');">P04637</a>)</p></div>
@@ -115,27 +109,18 @@
 									<div id='osyns'><p>&nbsp;</p></div>
 									<!--<input type="hidden" id="organismid" name="organismid" value="9606"/>-->
 								</form>
-
-								<!--
-							</div>
-							<div id="tabs-2">
-								<textarea id="seqSearchField" placeholder="Paste sequence here..." rows="4" cols="30"></textarea>
-								<span id="seqSearchButton" class="roundButton">&nbsp;</span>
-							</div>
-					</span>
-					-->
 				</div>
                 <div class="panel" id="uploadFile">
 					<h3>Upload a file</h3>
 					<span class="content">
-								<form id="upload" name="upload" ACTION="#" method="post"> 
+								<form> 
 									<p id="fileInput"><input type="file" id="fileUpload" name="fileUpload" placeholder="..." autocomplete="off" data-intro="Upload a file from your computer" data-position="right" /></p>
 								</form>
 				</div>
                     <div class="panel" id="pasteSequence">
 					<h3>Paste your sequence</h3>
 					<span class="content">
-								<form id="upload" name="upload" ACTION="#" method="post"> 
+								<form> 
 									<p id="sequenceInput"><input type="text" id="sequenceUpload" name="sequenceUpload" placeholder="GGCAGATTCCCCCTAGAGT..." autocomplete="off" data-intro="Paste a sequence" data-position="right" /></p>
 								</form>
 				</div>
