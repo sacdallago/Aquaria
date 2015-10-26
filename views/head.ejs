@@ -5,44 +5,46 @@
 	<link rel="stylesheet" type="text/css" media="all" href="/stylesheets/jquery-ui.min.css" />
 	<link rel="stylesheet" type="text/css" media="all" href="/stylesheets/style.css" />
 	<link rel="stylesheet" type="text/css" media="all" href="/stylesheets/layout.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="/stylesheets/nav.css" />
+  <link rel="stylesheet" type="text/css" media="all" href="/stylesheets/nav.css" />
 	<link href="/stylesheets/chardinjschardinjs.mod.css" rel="stylesheet">
-    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
 	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 
-    <script src="/javascripts/jquery-1.9.1.min.js"></script>
-    <script src="/javascripts/chardinjs.mod.js"></script>
+  <script src="/javascripts/jquery-1.9.1.min.js"></script>
+  <script src="/javascripts/chardinjs.mod.js"></script>
 	<script> var ltIE9 = false;  
-  function getUrlParameter(sParam)
-  {
-      if (window.location.search.length > 0) {
+	
+      function getUrlParameter(sParam)
+      {
+        if (window.location.search.length > 0) {
       
-        var sPageURL = window.location.search.substring(1);  // no .toLowerCase() here (this affects the value!)
-        var sURLVariables = sPageURL.split('&');
-        sParam = sParam.toLowerCase();
-        for (var i = 0; i < sURLVariables.length; i++) 
-        {
-            var sParameterName = sURLVariables[i].split('=');
-            if (sParameterName[0].toLowerCase() == sParam) // make name case insensitive
-            {
-                return decodeURIComponent(sParameterName[1]); // the value might have been encoded
-            }
+          var sPageURL = window.location.search.substring(1);  // no .toLowerCase() here (this affects the value!)
+          var sURLVariables = sPageURL.split('&');
+          sParam = sParam.toLowerCase();
+          for (var i = 0; i < sURLVariables.length; i++) 
+          {
+              var sParameterName = sURLVariables[i].split('=');
+              if (sParameterName[0].toLowerCase() == sParam) // make name case insensitive
+              {
+                  return decodeURIComponent(sParameterName[1]); // the value might have been encoded
+              }
+          }
         }
-       }
-      return null;
-  }
-  var persist = getUrlParameter("persist");
-  var viewer = getUrlParameter("viewer");
-    if ( viewer && persist) {
-        localStorage.setItem("3DViewer", viewer);
-    }
-    window.threedViewer = (viewer ||  localStorage.getItem("3DViewer") || "Applet");
-    window.threedViewer = window.threedViewer.toLowerCase();
+        return null;
+      }
+  
+      var persist = getUrlParameter("persist");
+      var viewer = getUrlParameter("viewer");
+      if ( viewer && persist) {
+          localStorage.setItem("3DViewer", viewer);
+      }
+      
+      window.threedViewer = (viewer ||  localStorage.getItem("3DViewer") || "Applet");
+      window.threedViewer = window.threedViewer.toLowerCase();
     
-    <% if (typeof initialParams !== 'undefined') {%>
-    
-      window.initialParams = JSON.parse('<%- initialParams %>');
-    <%}%>
+      <% if (typeof initialParams !== 'undefined') {%>
+        window.initialParams = JSON.parse('<%- initialParams %>');
+      <%}%>
 	</script>
     
 	<meta charset="utf-8"/>
@@ -50,4 +52,5 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Search for Structures, Proteins, Macromolecules, PDB, Uniprot, Features, Sequences, Genes, PSSH, HSSP"/>
 	<meta name="keywords" content="Structures, Proteins, Macromolecules, PDB, Uniprot, Features, Sequences, Genes, PSSH, HSSP"/>
+	
 </head>
