@@ -8,6 +8,7 @@
 <body id="home">
 	<div id="wrapper">
 		<div id="content">
+			
 			<div id="gallery">
 				<div class="panel" id="description" data-intro="PDB summary for the shown structure." data-position="bottom" >
 					<h3>About <span class="explanation"> PDB</span></h3>
@@ -33,7 +34,9 @@
 				</iframe>
 				-->
 				
-			</div>
+			</div> <!--gallery-->
+			
+			<!-- The left-side of viewer -->
 			<div id="controls">
 				<div id="logo"><img src="/images/aquaria-logo.png" alt="Aquaria Logo" />
 					<div id="wait"><img src="/images/aquaria-spin.gif" alt="Loading" title="Loading data..."></div>
@@ -42,6 +45,7 @@
 				<p id="intro"><span class="small"><a href="javascript:showAbout();">Updated: <span class="lastupdate">23rd Mar 2015</span></a></span><br>
 				<a href="javascript:showAbout();" style="color:#DDD;">About</a> | <a target='_blank' style="color:#DDD;" href='https://www.biostars.org/t/aquaria'>Forum</a> | <a href="javascript:showExplanations();" style="color:#DDD;">Help</a>
 				<br></p>
+				<!--Specify a Protein -->
 				<div class="panel" id="searchByName">
 					<h3>Specify a Protein</h3>
 					<span class="content">
@@ -54,6 +58,8 @@
 									<!--<input type="hidden" id="organismid" name="organismid" value="9606"/>-->
 								</form>
 				</div>
+				
+				<!--Upload a file-->
                 <div class="panel" id="uploadFile">
 					<h3>Upload a file</h3>
 					<span class="content">
@@ -61,18 +67,24 @@
 									<p id="fileInput"><input type="file" id="fileUpload" name="fileUpload" placeholder="..." autocomplete="off" data-intro="Upload a file from your computer" data-position="right" /></p>
 								</form>
 				</div>
-                    <div class="panel" id="pasteSequence">
+				
+				<!--Paste your Sequence-->
+                <div class="panel" id="pasteSequence">
 					<h3>Paste your sequence</h3>
 					<span class="content">
 								<form> 
 									<p id="sequenceInput"><input type="text" id="sequenceUpload" name="sequenceUpload" placeholder="GGCAGATTCCCCCTAGAGT..." autocomplete="off" data-intro="Paste a sequence" data-position="right" /></p>
 								</form>
 				</div>
+				
+				<!--ABOUT-->
 				<div class="panel" id="about" data-intro="UniProt summary of the specified protein's function." data-position="right" >
 					<h3>About <span class="explanation"> Uniprot ID</span></h3>
 					<div id="uniProtDesc"></div>					
 				</div>
+				
 			</div>
+			
 			<div id="center">
 			  <div class="panel" id="structureviewer">
 				<h3 id="titleBar3Dview" 
@@ -92,59 +104,66 @@
 									<p><a target='_blank' href='/help/Aquaria3D_QR_v1.pdf'>Mouse & keyboard controls</a></p>
 									<p><a target='_blank' href='https://docs.google.com/document/d/1566Ub_-WAXMcuOA8gmb2-X9JmYfWuZarrgneNVaBQd8/pub'>Aquaria API</a></p>
 									</td><td>
-                <h2>Publication</h2>
-                  <p><a target='_blank' href='http://nature.com/articles/nmeth.3258'>O&rsquo;Donoghue et al., Nature Methods (2015)</a></p>
+                				<h2>Publication</h2>
+                					<p><a target='_blank' href='http://nature.com/articles/nmeth.3258'>O&rsquo;Donoghue et al., Nature Methods (2015)</a></p>
 								<h2>Forum</h2>
 									<p><a target='_blank' href='https://www.biostars.org/t/aquaria'>View forum</a></p>
 									<p><a target='_blank' href='https://www.biostars.org/p/new/post/?tag_val=aquaria'>Ask a question</a></p>						
 								<h2>Bugs</h2>
 									<p><a target='_blank' href='https://github.com/ODonoghueLab/Aquaria/issues'>View known bugs</a></p>
-                  <p><a target='_blank' href='https://github.com/ODonoghueLab/Aquaria/issues/new' >Report new bug</a></p>
-                  </td></tr></table>
+                  					<p><a target='_blank' href='https://github.com/ODonoghueLab/Aquaria/issues/new' >Report new bug</a></p>
+                			 </td></tr></table>
 							</div>
 					" 
+				
 					data-position="bottom" >3D structure <span id="structureviewerexplanation" class="explanation"></span>
-				<div class="rightHeaderBar">
-				<!--
-				<span id="threedSwitcher" class="roundButton" style="display: inline-block;">
-					<a href="javascript:;"  title="Switch Browser">&nbsp;</a></span>
+				
+				    <!--Top-Right Buttoms of center -->
+					<div class="rightHeaderBar">
+					<!--
+					<span id="threedSwitcher" class="roundButton" style="display: inline-block;">
+						<a href="javascript:;"  title="Switch Browser">&nbsp;</a></span>
 					-->
-				<a href="javascript:;"  title="Toggle full window view" data-intro="Full window" data-position="bottom" >
-				<span id="expander" class="roundButton" style="display: inline-block;">&nbsp;</span></a>
-				<a class="launchApplicationLink" href="#" target="_blank"  title="Launch stand-alone Java application" data-intro="Standalone application" data-position="top" >
-				<span class="applauncher roundButton" style="display: inline-block;">&nbsp;</span></a></div></h3>
-				<div id="updateJava3D" class="aquariaWarning">
-				<p><strong>Aquaria needs to update your Java3D.</strong></p>
-				<form action="/downloads/AquariaSetupMac.dmg"><p>1. <button id="myButton" type="submit">Download Aquaria Setup</button></p></form>
-        <p>2. After downloading, run AquariaSetupMac.dmg from your Downloads folder.</p>
-        <p>3. Restart your browser once the setup is finished.</p><br>
-				<p>For more information see <a href="https://docs.google.com/document/d/1waNOvw442Bwncx_FlMJAATH35aJxXpxu0iRcrZt8hrQ/pub" target="_blank">Aquaria help</a>.</p>
-				</div>
-				<span class="threedcontent resizable" id="threeD">
-					<span id="threeDSpan">
-					</span>
-					<iframe src="/html/waiting.html" frameBorder="0" name="waitingFrame" id="waitingFrame" scrolling="no" allowtransparency="true">
-						<p>Your browser does not support iframes.</p>
-					</iframe>
-          <iframe src="/html/selectionText.html" frameBorder="0" name="selectionText" id="selectionText" scrolling="no" allowtransparency="true" style="bottom: 20px; left: 20px;">
-            <p>Your browser does not support iframes.</p>
-          </iframe>
+						<a href="javascript:;"  title="Toggle full window view" data-intro="Full window" data-position="bottom" >
+						<span id="expander" class="roundButton" style="display: inline-block;">&nbsp;</span></a>
+						<a class="launchApplicationLink" href="#" target="_blank"  title="Launch stand-alone Java application" data-intro="Standalone application" data-position="top" >
+						<span class="applauncher roundButton" style="display: inline-block;">&nbsp;</span></a></div></h3>
 					
-				</span>
-			 </div>
+						<div id="updateJava3D" class="aquariaWarning">
+							<p><strong>Aquaria needs to update your Java3D.</strong></p>
+							<form action="/downloads/AquariaSetupMac.dmg"><p>1. <button id="myButton" type="submit">Download Aquaria Setup</button></p></form>
+        					<p>2. After downloading, run AquariaSetupMac.dmg from your Downloads folder.</p>
+        					<p>3. Restart your browser once the setup is finished.</p><br>
+							<p>For more information see <a href="https://docs.google.com/document/d/1waNOvw442Bwncx_FlMJAATH35aJxXpxu0iRcrZt8hrQ/pub" target="_blank">Aquaria help</a>.</p>
+						</div>
+						<span class="threedcontent resizable" id="threeD">
+							<span id="threeDSpan">
+							</span>
+							<iframe src="/html/waiting.html" frameBorder="0" name="waitingFrame" id="waitingFrame" scrolling="no" allowtransparency="true">
+								<p>Your browser does not support iframes.</p>
+							</iframe>
+          					<iframe src="/html/selectionText.html" frameBorder="0" name="selectionText" id="selectionText" scrolling="no" allowtransparency="true" style="bottom: 20px; left: 20px;">
+        						<p>Your browser does not support iframes.</p>
+          					</iframe>
+					
+						</span>
+			  </div> <!--structureviewer-->
 	
-			 <div class="panel" id="structurematches" data-intro=" " data-position="top" >
-			 	<h3 class="sub"  title="Click to see clusters of matching structures" rel="vis" >Matching Structures <span class="explanation" id="structureexplanation"> in PDB</span></h3>
-				<h3 class="sub inactive" title="Click to see annotated features" rel="featurelist" id="h_featurelist" data-intro="Provides access to sequence features." data-position="top" >Features
-					 <span class="explanation" id="featureExplanation"></span><span class="counter" id="featureCounter"></span></h3> 
-					 
-			    <span class="content toggled" id="vis"></span>
-				<div class="toggled" id="ppi-diagram">					
-				</div>
-				<div class="toggled" id="featurelist">
-					<!--  List of features goes here  -->		
-				</div>
-			 </div>
+			  <div class="panel" id="structurematches" data-intro=" " data-position="top" >
+			 		<h3 class="sub"  title="Click to see clusters of matching structures" rel="vis" >Matching Structures <span class="explanation" id="structureexplanation"> in PDB</span></h3>
+					<h3 class="sub inactive" title="Click to see annotated features" rel="featurelist" id="h_featurelist" data-intro="Provides access to sequence features." data-position="top" >Features
+			
+					<span class="explanation" id="featureExplanation"></span><span class="counter" id="featureCounter"></span></h3> 
+			    	<span class="content toggled" id="vis"></span>
+			
+					<div class="toggled" id="ppi-diagram">					
+					</div>
+				
+					<div class="toggled" id="featurelist">
+						<!--  List of features goes here  -->		
+					</div>
+			 </div> <!--structurematches-->
+			 
 			 <div id="about_overlay">
 						<h3>About Aquaria <span class='x'>&nbsp;</span></h3>
 						<p id="starter"><img src="/images/logo-large.png" width="605" height="167" alt="Aquaria"></p>
@@ -156,17 +175,17 @@
 						<br>PDB structures released since then are not yet available in Aquaria. 
 						<br>The next update is planned for <span class="nextupdate">15th April 2015</span>.</p>
 						<p class="affiliations">
-						1. CSIRO Digital Productivity, Sydney, Australia &nbsp;
-						2. Garvan Institute of Medical Research, Sydney, Australia &nbsp;
-						3. University of Sydney, Australia <br>
-						4. Technische Universit&auml;t M&uuml;nchen, Germany &nbsp;
-						5. University of Lisbon, Portugal &nbsp;
-						6. Instituto de Sistemas e Rob&oacute;tica, Lisboa, Portugal<br>
-  						7. St. Vincent's Clinical School, UNSW, Sydney, Australia.
+							1. CSIRO Digital Productivity, Sydney, Australia &nbsp;
+							2. Garvan Institute of Medical Research, Sydney, Australia &nbsp;
+							3. University of Sydney, Australia <br>
+							4. Technische Universit&auml;t M&uuml;nchen, Germany &nbsp;
+							5. University of Lisbon, Portugal &nbsp;
+							6. Instituto de Sistemas e Rob&oacute;tica, Lisboa, Portugal<br>
+  							7. St. Vincent's Clinical School, UNSW, Sydney, Australia.
 						</p>									
 						<p style="text-align: center;">We gratefully acknowledge generous support from Amazon AWS in hosting the Aquaria database and server.<br>&nbsp;</p>
 					
-				</div>
+			 </div> <!--about_overlay-->
 				
 			</div>	<!-- /center -->
 			
@@ -176,105 +195,25 @@
 						<h2 style="color: crimson;">Sorry, but Aquaria will not work with your browser!</h3>
 												
 		</div>
+		
 		<div id="footer">
-			
-				
+		
 		</div> <!-- /footer -->		
 
 	</div> <!-- /wrapper -->	
-	<!-- all script tags last for fast generation of initial page -->		
-	<script src="/javascripts/d3.v2.min.js"></script>
-    <script src="http://www.java.com/js/deployJava.js"></script>
-    <script src="/javascripts/browser_check.js"></script>
-    <script src="/javascripts/jquery-ui.min.js"></script>  
-    <script src="/javascripts/jquery.expander.min.js"></script>  
-	<script src="/javascripts/show_expanded_clusters.js"></script>
-	<script src="/javascripts/textpanels.js"></script>
-  	<script src='/javascripts/pv.js'></script>
-	<script src="/javascripts/aquaria.js"></script>
-	<script src="/javascripts/resize_app.js"></script>
-	<script src="/javascripts/jsdas.0.1.6.min.js"></script>
-  
-	
-	<script>			
-//		window.pv = pv;
 
-		function showAbout() {
-			// dim background
-			if($("div.dimmer").length == 0) { 
-				$('body').append('<div class="dimmer"></div>'); 
-				$("div.dimmer").on( "click", function(){ 
-					$("div#about_overlay, div#help_overlay").hide();
-					$("div.dimmer").remove();
-					});
-				}
-			else { $("div.dimmer").remove(); }
-			
-			$("div#about_overlay").slideToggle("slow");
-		}
-		function showHelp() {
-		// dim background
-		if($("div.dimmer").length == 0) { 
-			$('body').append('<div class="dimmer"></div>'); 
-			$("div.dimmer").on( "click", function(){ 
-					$("div#about_overlay, div#help_overlay").hide();
-					$("div.dimmer").remove();
-					});
-			}
-			else { $("div.dimmer").remove(); }
-		
-			$("div#help_overlay").slideToggle("slow");
-		}
-		
-		function showExplanations() {
-			$("div.dimmer").remove();
-			$("div#about_overlay, div#help_overlay").hide();
-			$("body, #gallery").css("margin-top","5em");
-			$("div.container").first().hide();
-			$("div.outer_container").first().append("<div id='tree_helper' class='chardinjs-helper-layer chardinjs-relative-position'></div>");
-			$("#tree_helper").html('<img src="/images/tree-overlay.png" />');	
-			$("body").chardinJs("start");
-		}
-		
-		function fillin(term) {
-			$("#protein_syn_input")[0].value = term;	 
-			setTimeout( function() { window.location.href = "/P04637"; }, 300);
-		}
-		
-		$("span.x").click( function(){ 
-				$("div#about_overlay, div#help_overlay").slideUp("slow");
-				$("div.dimmer").remove();
-			});
-			
-		$("span#expander").click( function(){ 
-				expandFullScreen();
-			});
-		$(document).on( "keydown", function( e ) {
-		  if (e.which == 27 && $("div#about_overlay, div.chardinjs-overlay, div.dimmer, div.popup").filter(":visible").length > 0) {  // esc pressed while overlay is visible
-		  	e.preventDefault();
-		  	}
-		 }); 
-		 $(document).keyup(function(e) {
-		  if (e.keyCode == 27) {  // esc	
-		  		$('body').chardinJs('stop');
-		  		$("div#about_overlay, div.popup").hide();
-			  	$("div.dimmer").remove();
-			  	$("span#help3D.roundButton").css("background-position", "0 0");
-			  }   
-		});
-		
+	<%- include index.ejs %>  
+	<%- include functions.ejs %>  
 
-			
-	</script>
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  	<script>
+    	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    ga('create', '<%=googleAnalyticsID%>', '<%=googleAnalyticsHostname%>');
-    ga('send', 'pageview');
-  </script>
+    	ga('create', '<%=googleAnalyticsID%>', '<%=googleAnalyticsHostname%>');
+    	ga('send', 'pageview');
+  	</script>
 	
 </body>
 </html>
