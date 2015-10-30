@@ -1,4 +1,5 @@
-var Fasta = require('biojs-io-fasta');
+var biojs = require('biojs-io-fasta');
+var bionode = require('bionode-fasta')
 
 var parseFasta = function(fasta, callback) {
     'use strict';
@@ -7,7 +8,7 @@ var parseFasta = function(fasta, callback) {
     
     if(fasta) {
         try {
-            result = Fasta.parse(fasta);
+            result = biojs.parse(fasta);
         } catch (e) {
             error = e;
         }

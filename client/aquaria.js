@@ -882,7 +882,6 @@ var MAX_PROTEIN_HISTORY = 5;
                     }
                 }
             }).on('focus', function() {
-            alert('focus')
             $("#organism_syn_input").val(localStorage.preferred_organism_name);
             AQUARIA.blankAll(true, "Please specify an organism.");
             //					$(this).autocomplete("search");

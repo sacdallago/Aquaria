@@ -3,219 +3,40 @@
 <!--[if gte IE 9]><!--><html><!--<![endif]-->
 
 <!-- The following imports the HEAD html attribute -->
- <%- include head.ejs %>
+<%- include head.ejs %>
 
 <body id="home">
-	<div id="wrapper">
-		<div id="content">
-			
-			<div id="gallery">
-				<div class="panel" id="description" data-intro="PDB summary for the shown structure." data-position="bottom" >
-					<h3>About <span class="explanation"> PDB</span></h3>
-					<span class="content" id="aboutPDB">
-					<span id="biounitDisplay" style="display: none;" ><span id="biounitLeft" style="display: inline-block;"  title="Navigate to other assemblies">&lt;</span>&nbsp;<span id="biounitType" style="display: inline-block;" >biounit</span>&nbsp;<span id="biounitCount" style="display: inline-block;">x/x</span>&nbsp;<span id="biounitRight" style="display: inline-block;"  title="Navigate to other assemblies">&gt;</span><a id="helpBiounit" href="http://bit.ly/biounit" target="_blank" title="Go to PDB to view explanation of assembly"><span class="help roundButton"> </span></a></span>
-						<span id="aboutPDBHider" style="display: none;"  data-intro="PubMed Information about PDB structure" data-position="left" >
-							<h4 id="reference_title">Title unavailable</h4>
-							<p id="reference_link"><a href="#" >PubMed Link unavailable</a></p>
-							<p class="reference_abstract" >Abstract unavailable</p>
-							<p id="method"><strong>Determined by: </strong><span class="text">unavailable</span</p>
-							<p id="molecule" title="View this structure in Aquaria" data-intro="Information about currently focused PDB chain." data-position="left" ><strong>Molecule: </strong><span class="text">unavailable</span</p>
-							<p id="organism"><strong>Organism: </strong><span class="text">unavailable</span</p>
-						</span>
-					</span>
-				</div>			
-				
-				<!--				
-				<a id="launchToolkitApplicationLink" href="#" target="_blank">MolecularControlToolkit</a>
-				<a id="test" href="/test.html" target="_blank">Unit Tests</a>
-				<div id="launchJalviewLink" >Launch Jalview</div>
-				<iframe src="/html/jalview.html" width="0%" height="0%" frameBorder="0" name="jalViewFrame" id="jalViewFrame">
-					<p>Your browser does not support iframes.</p>
-				</iframe>
-				-->
-				
-			</div> <!--gallery-->
-			
-			<!-- The left-side of viewer -->
-			<div id="controls">
-				<div id="logo"><img src="/images/aquaria-logo.png" alt="Aquaria Logo" />
-					<div id="wait"><img src="/images/aquaria-spin.gif" alt="Loading" title="Loading data..."></div>
-				</div>
-				
-				<p id="intro"><span class="small"><a href="javascript:showAbout();">Updated: <span class="lastupdate">23rd Mar 2015</span></a></span><br>
-				<a href="javascript:showAbout();" style="color:#DDD;">About</a> | <a target='_blank' style="color:#DDD;" href='https://www.biostars.org/t/aquaria'>Forum</a> | <a href="javascript:showExplanations();" style="color:#DDD;">Help</a>
-				<br></p>
-				<!--Specify a Protein -->
-				<div class="panel" id="searchByName">
-					<h3>Specify a Protein</h3>
-					<span class="content">
-								<form id="myform" name="myform" ACTION="#" method="post"> 
-									<p id="input1"><input class="search" type="text" id="protein_syn_input" name="protein_syn_input" placeholder="Protein name or ID" autocomplete="off" data-intro="START HERE - specify a protein name (or UniProt identifier, or PDB ID), then press 'Enter'." data-position="right" /></p>		
-									<div id='psyns'><p>(example: <a href="javascript:fillin('p53');">p53</a> or <a href="javascript:fillin('P04637');">P04637</a>)</p></div>
-									<div style="display:none;" id='gsyns'><p>&nbsp;</p></div>
-									<p id="input2"><input class="search"  type="text" id="organism_syn_input" name="organism_syn_input" placeholder="Organism" autocomplete="off" data-intro="Enter an organism name (human is default)." data-position="right" /></p>
-									<div id='osyns'><p>&nbsp;</p></div>
-									<!--<input type="hidden" id="organismid" name="organismid" value="9606"/>-->
-								</form>
-				</div>
-				
-				<!--Upload a file-->
-                <div class="panel" id="uploadFile">
-					<h3>Upload a file</h3>
-					<span class="content">
-								<form> 
-									<p id="fileInput"><input type="file" id="fileUpload" name="fileUpload" placeholder="..." autocomplete="off" data-intro="Upload a file from your computer" data-position="right" /></p>
-								</form>
-				</div>
-				
-				<!--Paste your Sequence-->
-                <div class="panel" id="pasteSequence">
-					<h3>Paste your sequence</h3>
-					<span class="content">
-								<form> 
-									<p id="sequenceInput"><input type="text" id="sequenceUpload" name="sequenceUpload" placeholder="GGCAGATTCCCCCTAGAGT..." autocomplete="off" data-intro="Paste a sequence" data-position="right" /></p>
-								</form>
-				</div>
-				
-				<!--ABOUT-->
-				<div class="panel" id="about" data-intro="UniProt summary of the specified protein's function." data-position="right" >
-					<h3>About <span class="explanation"> Uniprot ID</span></h3>
-					<div id="uniProtDesc"></div>					
-				</div>
-				
-			</div>
-			
-			<div id="center">
-			  <div class="panel" id="structureviewer">
-				<h3 id="titleBar3Dview" 
-					data-intro = "
-						3D view: initially shows PDB structure estimated to be most relevant for the specified protein. 
-						Hue is used to indicate secondary structure: yellow = strand, blue = helix, and green = coil. Lightness is used to indicate amino acid substitutions between the specified protein and PDB structure: slightly dark = conserved, very dark = non-conserved, white = insertions, and semi-transparent = other chains. <br><p>&nbsp;</p>
-							<div class='bg_helpdoc'>
-							<table id='helptable'><tr><td>
-								<h2>Videos</h2>
-									<p><a target='_blank' href='http://youtu.be/FAQ3yVGYSzY'>Quick introduction (6:16)</a></p>
-									<p><a target='_blank' href='http://youtu.be/PIs1qyV_dIQ'>General overview (44:25)</a></p>
-									<p><a target='_blank' href='http://youtu.be/XU_6TWM9ke8'>Leap Motion controller (2:18)</a></p>
-								<h2>Installation</h2>
-									<p><a target='_blank' href='https://docs.google.com/document/d/1waNOvw442Bwncx_FlMJAATH35aJxXpxu0iRcrZt8hrQ/pub'>On Mac OS</a></p>
-									<p><a target='_blank' href='https://docs.google.com/document/d/1wZo-76MEPyoDj-9uAxHyz4y2f4_6ZR89uJcPBQvVUQc/pub'>On Windows</a></p>
-								<h2>Documentation</h2>
-									<p><a target='_blank' href='/help/Aquaria3D_QR_v1.pdf'>Mouse & keyboard controls</a></p>
-									<p><a target='_blank' href='https://docs.google.com/document/d/1566Ub_-WAXMcuOA8gmb2-X9JmYfWuZarrgneNVaBQd8/pub'>Aquaria API</a></p>
-									</td><td>
-                				<h2>Publication</h2>
-                					<p><a target='_blank' href='http://nature.com/articles/nmeth.3258'>O&rsquo;Donoghue et al., Nature Methods (2015)</a></p>
-								<h2>Forum</h2>
-									<p><a target='_blank' href='https://www.biostars.org/t/aquaria'>View forum</a></p>
-									<p><a target='_blank' href='https://www.biostars.org/p/new/post/?tag_val=aquaria'>Ask a question</a></p>						
-								<h2>Bugs</h2>
-									<p><a target='_blank' href='https://github.com/ODonoghueLab/Aquaria/issues'>View known bugs</a></p>
-                  					<p><a target='_blank' href='https://github.com/ODonoghueLab/Aquaria/issues/new' >Report new bug</a></p>
-                			 </td></tr></table>
-							</div>
-					" 
-				
-					data-position="bottom" >3D structure <span id="structureviewerexplanation" class="explanation"></span>
-				
-				    <!--Top-Right Buttoms of center -->
-					<div class="rightHeaderBar">
-					<!--
-					<span id="threedSwitcher" class="roundButton" style="display: inline-block;">
-						<a href="javascript:;"  title="Switch Browser">&nbsp;</a></span>
-					-->
-						<a href="javascript:;"  title="Toggle full window view" data-intro="Full window" data-position="bottom" >
-						<span id="expander" class="roundButton" style="display: inline-block;">&nbsp;</span></a>
-						<a class="launchApplicationLink" href="#" target="_blank"  title="Launch stand-alone Java application" data-intro="Standalone application" data-position="top" >
-						<span class="applauncher roundButton" style="display: inline-block;">&nbsp;</span></a></div></h3>
-					
-						<div id="updateJava3D" class="aquariaWarning">
-							<p><strong>Aquaria needs to update your Java3D.</strong></p>
-							<form action="/downloads/AquariaSetupMac.dmg"><p>1. <button id="myButton" type="submit">Download Aquaria Setup</button></p></form>
-        					<p>2. After downloading, run AquariaSetupMac.dmg from your Downloads folder.</p>
-        					<p>3. Restart your browser once the setup is finished.</p><br>
-							<p>For more information see <a href="https://docs.google.com/document/d/1waNOvw442Bwncx_FlMJAATH35aJxXpxu0iRcrZt8hrQ/pub" target="_blank">Aquaria help</a>.</p>
-						</div>
-						<span class="threedcontent resizable" id="threeD">
-							<span id="threeDSpan">
-							</span>
-							<iframe src="/html/waiting.html" frameBorder="0" name="waitingFrame" id="waitingFrame" scrolling="no" allowtransparency="true">
-								<p>Your browser does not support iframes.</p>
-							</iframe>
-          					<iframe src="/html/selectionText.html" frameBorder="0" name="selectionText" id="selectionText" scrolling="no" allowtransparency="true" style="bottom: 20px; left: 20px;">
-        						<p>Your browser does not support iframes.</p>
-          					</iframe>
-					
-						</span>
-			  </div> <!--structureviewer-->
-	
-			  <div class="panel" id="structurematches" data-intro=" " data-position="top" >
-			 		<h3 class="sub"  title="Click to see clusters of matching structures" rel="vis" >Matching Structures <span class="explanation" id="structureexplanation"> in PDB</span></h3>
-					<h3 class="sub inactive" title="Click to see annotated features" rel="featurelist" id="h_featurelist" data-intro="Provides access to sequence features." data-position="top" >Features
-			
-					<span class="explanation" id="featureExplanation"></span><span class="counter" id="featureCounter"></span></h3> 
-			    	<span class="content toggled" id="vis"></span>
-			
-					<div class="toggled" id="ppi-diagram">					
-					</div>
-				
-					<div class="toggled" id="featurelist">
-						<!--  List of features goes here  -->		
-					</div>
-			 </div> <!--structurematches-->
-			 
-			 <div id="about_overlay">
-						<h3>About Aquaria <span class='x'>&nbsp;</span></h3>
-						<p id="starter"><img src="/images/logo-large.png" width="605" height="167" alt="Aquaria"></p>
-						<p style="text-align: center; margin-bottom: 1.8em;"><strong>Simplifying the generation of insight from protein structures</strong></p>
-						<p style="text-align: center; margin-bottom: 1.8em;">Se&aacute;n I. O&rsquo;Donoghue<sup>1,2,3</sup>, Kenneth Sabir<sup>2,3</sup>, Christian Stolte<sup>1</sup>, Benjamin Wellmann<sup>4</sup>, Maria Kalemanov<sup>4</sup>,<br>Fabian Buske<sup>2,7</sup>, Julian Heinrich<sup>1</sup>, Manfred Roos<sup>4</sup>, Nelson Perdig&atilde;o<sup>5,6</sup>, Burkhard Rost<sup>4</sup>, Andrea Schafferhans<sup>4</sup><br>
-						<br><script src="/javascripts/email.js"></script><br>
-						<br><strong>Updated: <span class="lastupdate">23rd Mar 2015</span></strong>
-						<br>This indicates when the Aquaria database (PSSH2) was last calculated. 
-						<br>PDB structures released since then are not yet available in Aquaria. 
-						<br>The next update is planned for <span class="nextupdate">15th April 2015</span>.</p>
-						<p class="affiliations">
-							1. CSIRO Digital Productivity, Sydney, Australia &nbsp;
-							2. Garvan Institute of Medical Research, Sydney, Australia &nbsp;
-							3. University of Sydney, Australia <br>
-							4. Technische Universit&auml;t M&uuml;nchen, Germany &nbsp;
-							5. University of Lisbon, Portugal &nbsp;
-							6. Instituto de Sistemas e Rob&oacute;tica, Lisboa, Portugal<br>
-  							7. St. Vincent's Clinical School, UNSW, Sydney, Australia.
-						</p>									
-						<p style="text-align: center;">We gratefully acknowledge generous support from Amazon AWS in hosting the Aquaria database and server.<br>&nbsp;</p>
-					
-			 </div> <!--about_overlay-->
-				
-			</div>	<!-- /center -->
-			
-		</div><!-- end content -->
-		<div id="bad_browser">
-						<p id="starter"><img src="/images/logo-large.png" width="605" height="167" alt="Aquaria"></p>
-						<h2 style="color: crimson;">Sorry, but Aquaria will not work with your browser!</h3>
-												
-		</div>
-		
-		<div id="footer">
-		
-		</div> <!-- /footer -->		
+    <div id="wrapper">
+        <div id="content">
+            <div id="gallery">
+                <%- include rightBar.ejs %>
+            </div>
+            <div id="controls">
+                <%- include leftBar.ejs %>
+            </div>
+            <div id="center">
+                <%- include structureViewer.ejs %>
+                <%- include structureMatches.ejs %>
+                <%- include about.ejs %> 
+            </div>
+        </div>
+        <div id="bad_browser">
+            <p id="starter"><img src="/images/logo-large.png" width="605" height="167" alt="Aquaria"></p>
+            <h2 style="color: crimson;">Sorry, but Aquaria will not work with your browser!</h3>
+        </div>
+        <%- include footer.ejs %> 
+    </div> <!-- /wrapper -->	
+    <%- include imports.ejs %>  
+    <%- include functions.ejs %>  
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	</div> <!-- /wrapper -->	
-
-	<%- include index.ejs %>  
-	<%- include functions.ejs %>  
-
-  	<script>
-    	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    	ga('create', '<%=googleAnalyticsID%>', '<%=googleAnalyticsHostname%>');
-    	ga('send', 'pageview');
-  	</script> 
-    
+        ga('create', '<%=googleAnalyticsID%>', '<%=googleAnalyticsHostname%>');
+        ga('send', 'pageview');
+    </script> 
     <%- include tests.ejs %>
-
 </body>
 </html>

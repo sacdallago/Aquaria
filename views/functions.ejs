@@ -1,70 +1,70 @@
 <script>			
-//		window.pv = pv;
+    //		window.pv = pv;
 
     function showAbout() {
-    	// dim background
-		if( $("div.dimmer").length == 0) { 
-	    	$('body').append('<div class="dimmer"></div>'); 
-			$("div.dimmer").on( "click", function(){ 
-			    $("div#about_overlay, div#help_overlay").hide();
-			    $("div.dimmer").remove();
-		        });
-		}
-			else { $("div.dimmer").remove(); }
-			
-			$("div#about_overlay").slideToggle("slow");
-	}
-		
-	function showHelp() {
-	    // dim background
-		if($("div.dimmer").length == 0) { 
-			$('body').append('<div class="dimmer"></div>'); 
-			$("div.dimmer").on( "click", function(){ 
-					$("div#about_overlay, div#help_overlay").hide();
-					$("div.dimmer").remove();
-					});
-		}
-			else { $("div.dimmer").remove(); }
-		
-			$("div#help_overlay").slideToggle("slow");
-	}
-		
-	function showExplanations() {
-		$("div.dimmer").remove();
-		$("div#about_overlay, div#help_overlay").hide();
-		$("body, #gallery").css("margin-top","5em");
-		$("div.container").first().hide();
-		$("div.outer_container").first().append("<div id='tree_helper' class='chardinjs-helper-layer chardinjs-relative-position'></div>");
-		$("#tree_helper").html('<img src="/images/tree-overlay.png" />');	
-		$("body").chardinJs("start");
-	}
-		
-	function fillin(term) {
-		$("#protein_syn_input")[0].value = term;	 
-		setTimeout( function() { window.location.href = "/P04637"; }, 300);
-	}
-		
-	$("span.x").click( function(){ 
-			$("div#about_overlay, div#help_overlay").slideUp("slow");
-			$("div.dimmer").remove();
-	});
-			
-	$("span#expander").click( function(){ 
-			expandFullScreen();
-	});
-	
-	$(document).on( "keydown", function( e ) {
-		  if (e.which == 27 && $("div#about_overlay, div.chardinjs-overlay, div.dimmer, div.popup").filter(":visible").length > 0) {  // esc pressed while overlay is visible
-		  	e.preventDefault();
-	  	}
-	}); 
-	$(document).keyup(function(e) {
-		if (e.keyCode == 27) {  // esc	
-	    	$('body').chardinJs('stop');
-			$("div#about_overlay, div.popup").hide();
-		  	$("div.dimmer").remove();
-		  	$("span#help3D.roundButton").css("background-position", "0 0");
-		}   
-	});
-	
-	</script>
+        // dim background
+        if( $("div.dimmer").length == 0) { 
+            $('body').append('<div class="dimmer"></div>'); 
+            $("div.dimmer").on( "click", function(){ 
+                $("div#about_overlay, div#help_overlay").hide();
+                $("div.dimmer").remove();
+            });
+        }
+        else { $("div.dimmer").remove(); }
+
+        $("div#about_overlay").slideToggle("slow");
+    }
+
+    function showHelp() {
+        // dim background
+        if($("div.dimmer").length == 0) { 
+            $('body').append('<div class="dimmer"></div>'); 
+            $("div.dimmer").on( "click", function(){ 
+                $("div#about_overlay, div#help_overlay").hide();
+                $("div.dimmer").remove();
+            });
+        }
+        else { $("div.dimmer").remove(); }
+
+        $("div#help_overlay").slideToggle("slow");
+    }
+
+    function showExplanations() {
+        $("div.dimmer").remove();
+        $("div#about_overlay, div#help_overlay").hide();
+        $("body, #gallery").css("margin-top","5em");
+        $("div.container").first().hide();
+        $("div.outer_container").first().append("<div id='tree_helper' class='chardinjs-helper-layer chardinjs-relative-position'></div>");
+        $("#tree_helper").html('<img src="/images/tree-overlay.png" />');	
+        $("body").chardinJs("start");
+    }
+
+    function fillin(term) {
+        $("#protein_syn_input")[0].value = term;	 
+        setTimeout( function() { window.location.href = "/P04637"; }, 300);
+    }
+
+    $("span.x").click( function(){ 
+        $("div#about_overlay, div#help_overlay").slideUp("slow");
+        $("div.dimmer").remove();
+    });
+
+    $("span#expander").click( function(){ 
+        expandFullScreen();
+    });
+
+    $(document).on( "keydown", function( e ) {
+        if (e.which == 27 && $("div#about_overlay, div.chardinjs-overlay, div.dimmer, div.popup").filter(":visible").length > 0) {  // esc pressed while overlay is visible
+            e.preventDefault();
+        }
+    }); 
+    $(document).keyup(function(e) {
+        if (e.keyCode == 27) {  // esc	
+            $('body').chardinJs('stop');
+            $("div#about_overlay, div.popup").hide();
+            $("div.dimmer").remove();
+            $("span#help3D.roundButton").css("background-position", "0 0");
+        }   
+    });
+
+</script>
