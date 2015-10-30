@@ -30,6 +30,8 @@
         "molecular-control-toolkit-js" : "*",
         "seedrandom" : "*",
         "numeric" : "~1.2.6",
+        
+        // New
         "biojs-io-fasta" : "~0.1.12"
     }
 }

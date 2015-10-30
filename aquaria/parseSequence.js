@@ -1,17 +1,24 @@
 var Fasta = require('biojs-io-fasta');
 
-var parseSequence = function(sequence, callback) {
+var parseFasta = function(fasta, callback) {
     'use strict';
     var result = undefined;
-    if(sequence && callback) {
+    var error = undefined;
+    
+    if(fasta) {
         try {
-        result = Fasta.parse(sequence);
-        } catch (error) {
-            console.log('error')
+            result = Fasta.parse(fasta);
+        } catch (e) {
+            error = e;
         }
-        callback(result);
     }
-    return;
+    
+    try {
+        callback(result,error)
+    } catch (e) {
+    }
+    
+    return result
 }
 
-module.exports.parseSequence = parseSequence;
+module.exports.parseFasta = parseFasta;

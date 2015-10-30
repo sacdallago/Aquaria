@@ -93,7 +93,7 @@ var sock = shoe(function (stream) {
         createAppJNLP           : viewer.createJNLP,
         createToolkitAppJNLP    : viewer.createToolkitJNLP,
         get_sequence            : matching_structures.get_sequence,
-        parseSequence           : parseSequence.parseSequence
+        parseFasta               : parseSequence.parseFasta
     });
     d.pipe(stream).pipe(d);
 });
