@@ -19,7 +19,7 @@ window.jiraIssues = require('./jiraIssues');
 var TopTen = require('./topten');
 //var cache = require('../common/cache');
 var ShowMatchingStructures = require('./show_matching_structures');
-var fetch_das_annotations = require('./fetch_das_annotations');
+var fetch_das_annotations = require('./fetch_features');
 
 var MAX_PROTEIN_HISTORY = 5;
 
@@ -322,7 +322,7 @@ var MAX_PROTEIN_HISTORY = 5;
 			if (typeof (fetch_das_annotations) !== "undefined") {
 				AQUARIA.blankPanel("#featurelist", true);
 				startSpin();
-				fetch_das_annotations(primary_accession, uniprot_sequence_MD5_hash,
+				fetch_das_annotations(primary_accession,
 						function(featureInfo) {
 					featurelist.updateFeatureUI(featureInfo);
 					AQUARIA.blankPanel("#featurelist", false);
