@@ -605,6 +605,24 @@ function parseUniprot(xml) {
 	var data = {};
 	$(xml).find("feature").each(function() {
 		var type = capitaliseFirstLetter($(this).attr("type"));
+		var feature = {};
+		
+		switch(type) {
+		case "Helix":
+			feature.Color = "#568AB5";
+			type = "Secondary Structure";
+			break;
+		case "Strand":
+			feature.Color = "#FFC900";
+			type = "Secondary Structure";
+			break;
+		case "Turn":
+			feature.Color = "#639941";
+			type = "Secondary Structure";
+			break;
+			
+		}
+		
 		if (!hasOwnProperty(data, type)) {
 			data[type] = {"Source" : "Uniprot", "URL" : "http://www.uniprot.org", "Features" : []};
 			if (type == "Sequence variant" ||
@@ -614,7 +632,6 @@ function parseUniprot(xml) {
 				data[type]["Color"] = feature_colors[djb2Code(type.replace(/_/g, ' '), feature_colors.length)];
 			}
 		}
-		var feature = {};
 		
 		// feature description (optional)
 		var description = $(this).attr("description") || "";
@@ -642,7 +659,6 @@ function parseUniprot(xml) {
 		});
 		if (residues.length == 1) {
 			feature["Residue"] = residues;
-//			feature["Color"] = feature_colors[djb2Code(type.replace(/_/g, ' '), feature_colors.length)];
 		} else {
 			feature["Residues"] = residues;
 		}
