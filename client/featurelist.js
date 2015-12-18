@@ -15,7 +15,9 @@ function createFeatureUI() {
 };
 
 function updateFeatureTabTitle(preferredProteinName) {
-	$("#featureExplanation").text(" for " + preferredProteinName);
+	if (preferredProteinName !== "unknown") {
+		$("#featureExplanation").text(" for " + preferredProteinName);
+	}
 };
 
 var updateFeatureUI = function(featureList) {
@@ -23,8 +25,8 @@ var updateFeatureUI = function(featureList) {
 	console.log("UPDATE FEATURE UI");
 
 	$("#featurelist div").remove(); // remove old contents
-	$("#featureExplanation").text(" Loading...");
-	$("#featureCounter").html("<img src='/images/89.GIF'/>").show();
+//	$("#featureExplanation").text(" Loading...");
+//	$("#featureCounter").html("<img src='/images/89.GIF'/>").show();
 	
 	// draw axis ruler
 	AQUARIA.showMatchingStructures.drawAxisRuler("featurelist");
@@ -66,18 +68,18 @@ var updateFeatureUI = function(featureList) {
 						}
 					}).each(drawTrack);
 	
-	if (AQUARIA.preferred_protein_name !== "unknown") {
-		updateFeatureTabTitle(AQUARIA.preferred_protein_name);
+//	if (AQUARIA.preferred_protein_name !== "unknown") {
+//		updateFeatureTabTitle(AQUARIA.preferred_protein_name);
 		$("#featureCounter").show();
 		if (featureCount > 0) {
 			$("#featureCounter").text(featureCount);
 			$("#featureCounter").digits();
-			//$("#waitForFeatures").hide();
+//			$("#waitForFeatures").hide();
 			var scrollToggle = "<p id='scrollToggle'><a href='javascript:$(\"#featureContainer\").toggleClass(\"noscroll\");'>Toggle scrolling</a></p>";
 			$("#featureContainer").append(scrollToggle);
 		}
-		else { $("#featureCounter").html("<img src='/images/89.GIF'/>"); }
-	}
+//		else { $("#featureCounter").html("<img src='/images/89.GIF'/>"); }
+//	}
 };
 
 function drawTrack(datum, i) { 

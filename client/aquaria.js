@@ -349,6 +349,7 @@ var MAX_PROTEIN_HISTORY = 5;
 			document.title = "Aquaria: "
 				+ protein_name + ", " + score
 				+ "% Sequence Identity to PDB " + pdbid + ", chain " + chain;
+			featurelist.updateFeatureTabTitle(protein_name);
 		};
 		
 		//updates the 3D viewer title

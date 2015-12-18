@@ -609,16 +609,17 @@ function parseUniprot(xml) {
 		
 		switch(type) {
 		case "Helix":
-			feature.Color = "#568AB5";
-			type = "Secondary Structure";
-			break;
+//			feature.Color = "#568AB5";
+//			type = "Secondary Structure";
+//			break;
 		case "Strand":
-			feature.Color = "#FFC900";
-			type = "Secondary Structure";
-			break;
+//			feature.Color = "#FFC900";
+//			type = "Secondary Structure";
+//			break;
 		case "Turn":
-			feature.Color = "#639941";
-			type = "Secondary Structure";
+//			feature.Color = "#639941";
+//			type = "Secondary Structure";
+			return;
 			break;
 			
 		}
