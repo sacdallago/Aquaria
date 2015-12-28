@@ -34,4 +34,4 @@ function readMultipleFiles(evt) {
     }
 }
 
-document.getElementById('fileinput').addEventListener('change', readMultipleFiles, false);
+document.getElementById('fileUpload').addEventListener('change', readMultipleFiles, false);

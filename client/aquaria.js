@@ -10,7 +10,6 @@ var Applet3DPanel = require('./applet3DPanel');
 var PV3DPanel = require('./pv3DPanel');
 var IDRPanel = require('./IDRPanel');
 var featurelist = require('./featurelist');
-var parseFasta = require('./parseFasta');
 //var leapConnector = require('./leapConnector');
 var molecularControlToolkitJS = require('molecular-control-toolkit-js');
 
