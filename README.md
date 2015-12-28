@@ -12,17 +12,18 @@ Pre Installation
 	Click "Install" on the command line tools line.
 
 - Install npm and nodejs
-	from http://nodejs.org/
-curl -L https://npmjs.org/install.sh | sudo sh
+	from http://nodejs.org/: 
 
+```
+curl -L https://npmjs.org/install.sh | sudo sh`
 sudo npm cache clean -f
 sudo npm install -g n	
+```
 
 Aquaria is using node version v0.10.33
-sudo n 0.10.33
 	
 - install browserify
-  sudo npm install -g browserify@9.0.3
+  `sudo npm install -g browserify@9.0.3`
 
 --------
 Installation
@@ -39,9 +40,10 @@ Installation
   
 -------
 Operation
-- Start Stop Server
+To start and stop the server:
+	
 	Open Terminal and cd to root of Aquaria directory
-	run either start.sh or stop.sh
+	run either `sh start.sh` or `sh stop.sh`
 
 -------
 Changing the code

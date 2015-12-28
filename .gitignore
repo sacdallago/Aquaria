@@ -1,3 +1,4 @@
+.project
 node_modules
 .DS_Store
 cache/*
@@ -7,3 +8,4 @@ public/googlehostedservice.html
 public/javascripts/aquaria.js
 site.json
 jar/*
+aquaria_start_plist.sh

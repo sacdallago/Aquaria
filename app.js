@@ -146,6 +146,11 @@ app.get('/', routes.home_page);
 //app.get('/interactions/:id', routes.interactions);
 //app.get('/sean/:id', routes.sean);
 
+app.get('/robots.txt', function (req, res) {
+    res.type('text/plain');
+    res.send("User-agent: *\nDisallow:");
+});
 
 // Upload a FASTA sequence:
 app.post('/fasta', routes.parseFasta);
+
