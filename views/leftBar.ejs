@@ -25,8 +25,11 @@
 <div class="panel" id="uploadFile">
     <h3>Upload a file</h3>
     <span class="content">
-        <form> 
-            <p id="fileInput"><input type="file" id="fileUpload" name="fileUpload" placeholder="..." autocomplete="off" data-intro="Upload a file from your computer" data-position="right" /></p>
+        <form action="fasta" method="post" enctype="multipart/form-data">
+            <p id="fileInput">
+                <input type="file" id="fileUpload" name="fileUpload" placeholder="..." autocomplete="off" data-intro="Upload a file from your computer" data-position="right" />
+                <input type="submit">
+            </p>
         </form>
     </span>
 </div>

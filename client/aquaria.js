@@ -10,6 +10,7 @@ var Applet3DPanel = require('./applet3DPanel');
 var PV3DPanel = require('./pv3DPanel');
 var IDRPanel = require('./IDRPanel');
 var featurelist = require('./featurelist');
+var parseFasta = require('./parseFasta');
 //var leapConnector = require('./leapConnector');
 var molecularControlToolkitJS = require('molecular-control-toolkit-js');
 
@@ -199,7 +200,8 @@ var MAX_PROTEIN_HISTORY = 5;
                 }
                 var attributes = AQUARIA.panel3d.generateAttributes(threeDWidth, threeDHeight,
                                                                     pdb_id, pdb_chain, currentBiounit, source_primary_accession,
-                                                                    sequences, common_names, alignment, '', transform, conservations, AQUARIA.structures2match.version_string);
+                                                                    sequences, common_names, alignment, '', transform, conservations,
+                                                                    AQUARIA.structures2match.version_string);
                 console.log('ready for 3D');
                 // console.log("args: " + JSON.stringify(attributes));
                 // pdb_chain[0] - change for multiple uniprot??
@@ -1403,6 +1405,9 @@ AQUARIA.blankAll = function(isOn, message) {
     AQUARIA.blankPanel("#featurelist", isOn);
 };
 
+// AQUARIA.parseFasta = parseFasta.parseFasta;
+
+AQUARIA.parseFasta = function() { console.log("test"); };
 
 ////Requires jQuery!
 //jQuery.ajax({

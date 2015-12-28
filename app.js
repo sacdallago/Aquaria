@@ -12,7 +12,6 @@ var dnode = require('dnode');
 
 var autoComplete = require('./aquaria/autocomplete');
 var get_matching_structures = require('./aquaria/matching_structures');
-var parseSequence = require('./aquaria/parseSequence');
 var secondary_clustering = require('./aquaria/secondary_clustering');
 var metainfo = require('./aquaria/metainfo');
 var viewer_format = require('./aquaria/generate_viewer_format');
@@ -93,7 +92,6 @@ var sock = shoe(function (stream) {
         createAppJNLP           : viewer.createJNLP,
         createToolkitAppJNLP    : viewer.createToolkitJNLP,
         get_sequence            : matching_structures.get_sequence,
-        parseFasta               : parseSequence.parseFasta
     });
     d.pipe(stream).pipe(d);
 });
@@ -148,3 +146,6 @@ app.get('/', routes.home_page);
 //app.get('/interactions/:id', routes.interactions);
 //app.get('/sean/:id', routes.sean);
 
+
+// Upload a FASTA sequence:
+app.post('/fasta', routes.parseFasta);

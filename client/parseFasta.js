@@ -1,7 +1,6 @@
 var biojs = require('biojs-io-fasta');
-var bionode = require('bionode-fasta')
 
-var parseFasta = function(fasta, callback) {
+var parseFasta = function(fasta) {
     'use strict';
     var result = undefined;
     var error = undefined;
@@ -14,12 +13,7 @@ var parseFasta = function(fasta, callback) {
         }
     }
     
-    try {
-        callback(result,error)
-    } catch (e) {
-    }
-    
-    return result
+    return error || result;
 }
 
-module.exports.parseFasta = parseFasta;
+module.exposts.parseFasta = parseFasta;

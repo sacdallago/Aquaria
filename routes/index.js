@@ -16,6 +16,7 @@ var versionString = require('../aquaria/versionString');
 var Promise = require('es6-promise').Promise;
 var autocomplete = require('../aquaria/autocomplete');
 var viewerFormat = require('../aquaria/generate_viewer_format');
+var fasta = require ('../aquaria/parseFasta');
 
 var formats = { 
     'json' : {
@@ -374,4 +375,39 @@ exports.pdb = function(request, callback){
 
 exports.launchPage = function (request, callback) {
     callback.redirect("http://vizbi.org:8009/launchPage.html");
+}
+
+exports.parseFasta = function(request, response){
+    if(request.files.fileUpload.size > 0){
+        fs.readFile(request.files.fileUpload.path, 'utf8', function (error, data) {
+            if (error) {
+                return response.status(500).send({
+                    status: 500,
+                    message: "Internal Server error when reading file."
+                });
+            }
+            try {
+                var sequences = fasta.getFasta(data);
+                sequences.forEach(function(sequence){
+                    var hit = fasta.matchingMD5(sequence);
+                });
+                return response.status(200).send({
+                    status: 200,
+                    fasta: sequences
+                });
+            } catch (exception) {
+                logger.info("Internal Server error when parsing fasta file.");
+                return response.status(500).send({
+                    status: 500,
+                    message: "Internal Server error when parsing fasta file.",
+                    error: exception.stack
+                });
+            }
+        });
+    } else {
+        return response.status(400).send({
+            status: 400,
+            message: "No file was passed in the request."
+        });
+    }
 }

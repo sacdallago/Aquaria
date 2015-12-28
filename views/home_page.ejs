@@ -5,6 +5,8 @@
 <!-- The following imports the HEAD html attribute -->
 <%- include head.ejs %>
 
+<!--<%- include dimmer.ejs %>-->
+
 <body id="home">
     <div id="wrapper">
         <div id="content">
@@ -22,7 +24,7 @@
         </div>
         <div id="bad_browser">
             <p id="starter"><img src="/images/logo-large.png" width="605" height="167" alt="Aquaria"></p>
-            <h2 style="color: crimson;">Sorry, but Aquaria will not work with your browser!</h3>
+            <h2 style="color: crimson;">Sorry, but Aquaria will not work with your browser</h2>
         </div>
         <%- include footer.ejs %> 
     </div> <!-- /wrapper -->	
@@ -35,7 +37,7 @@
                                 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
         ga('create', '<%=googleAnalyticsID%>', '<%=googleAnalyticsHostname%>');
-        ga('send', 'pageview');
+           ga('send', 'pageview');
     </script> 
     <%- include tests.ejs %>
 </body>
