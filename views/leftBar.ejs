@@ -26,20 +26,23 @@
     <h3>Upload a file</h3>
     <span class="content">
         <form action="fasta" method="post" enctype="multipart/form-data">
-            <p id="fileInput">
-                <input type="file" id="fileUpload" name="fileUpload" placeholder="..." autocomplete="off" data-intro="Upload a file from your computer" data-position="right" />
+            <p class="fileUpload" id="fileInput">
+                <span>Upload</span>
+                <input class="upload" type="file" id="fileUpload" name="fileUpload" placeholder="..." autocomplete="off" data-intro="Upload a file from your computer" data-position="right" />
             </p>
         </form>
         <% if (typeof sequences != "undefined") { %>
-        <ul>
+        <p>
+        <ul style=" padding: 0;">
             <% for(var i=0; i < sequences.length; i++) { %>
             <li>
                 <a href='<%= sequences[i].md5 %>'>
-                    <%= sequences[i].seq %>
+                    <%= i // sequences[i].seq %>
                 </a>
             </li>
             <% } %>
         </ul>
+        </p>
         <% } %>
     </span>
 </div>
