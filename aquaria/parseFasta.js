@@ -13,15 +13,18 @@ module.exports.getFasta = function(textFile){
     return seqs;
 }
 
-module.exports.matchingMD5 = function(sequence){
+module.exports.matchingMD5 = function(sequence, callback){
+    var callback = callback || function(argument){};
     var sqlquery = "SELECT Primary_Accession, Sequence, MD5_Hash, Description, Length \
 FROM protein_sequence WHERE MD5_Hash = ?;";
     connector.queryPromise(sqlquery, sequence.md5).then(function(data) {
-        console.log("In here");
         if (data.length > 0) {
-            console.log(data[0]);
+            callback(data[0]);
+            return data[0];
         } else {
             console.log("No hits found :(");
+            callback(undefined);
+            return undefined;
         }
     });
 }

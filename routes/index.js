@@ -378,7 +378,13 @@ exports.launchPage = function (request, callback) {
 }
 
 exports.parseFasta = function(request, response){
-    if(request.files.fileUpload.size > 0){
+    var args = {
+        title: 'Success',
+        googleAnalyticsID: config.get('googleAnalyticsID'),    
+        googleAnalyticsHostname: config.get('googleAnalyticsHostname')    
+    };
+    
+    if(request.files.fileUpload && request.files.fileUpload.size > 0){
         fs.readFile(request.files.fileUpload.path, 'utf8', function (error, data) {
             if (error) {
                 return response.status(500).send({
@@ -389,12 +395,21 @@ exports.parseFasta = function(request, response){
             try {
                 var sequences = fasta.getFasta(data);
                 sequences.forEach(function(sequence){
-                    var hit = fasta.matchingMD5(sequence);
+                    fasta.matchingMD5(sequence, function(hit){
+                        if(hit){
+                            
+                            // These ones I can use without too much of an effrot
+                        } else {
+                            // These ones I must align
+                        }
+                    });
+
                 });
-                return response.status(200).send({
-                    status: 200,
-                    fasta: sequences
-                });
+                args.sequences = sequences;
+                response.render('home_page', args);
+//                return response.status(200).send({
+//                    status: 200
+//                });
             } catch (exception) {
                 logger.info("Internal Server error when parsing fasta file.");
                 return response.status(500).send({

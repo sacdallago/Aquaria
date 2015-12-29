@@ -28,9 +28,19 @@
         <form action="fasta" method="post" enctype="multipart/form-data">
             <p id="fileInput">
                 <input type="file" id="fileUpload" name="fileUpload" placeholder="..." autocomplete="off" data-intro="Upload a file from your computer" data-position="right" />
-                <input type="submit">
             </p>
         </form>
+        <% if (typeof sequences != "undefined") { %>
+        <ul>
+            <% for(var i=0; i < sequences.length; i++) { %>
+            <li>
+                <a href='<%= sequences[i].md5 %>'>
+                    <%= sequences[i].seq %>
+                </a>
+            </li>
+            <% } %>
+        </ul>
+        <% } %>
     </span>
 </div>
 

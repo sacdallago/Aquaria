@@ -109,6 +109,10 @@ sock.install(server, '/dnode');
 app.set('view options', {
     layout: false
 });
+// Upload a FASTA sequence:
+app.post('/fasta', routes.parseFasta);
+app.get('/fasta', routes.home_page);
+// Get is fallback in case someone reloads the page or goes to /fasta instead of root
 
 app.get('/launch', routes.launchPage);
 app.get('/googlehostedservice.html', routes.googleHostedService);
@@ -150,7 +154,4 @@ app.get('/robots.txt', function (req, res) {
     res.type('text/plain');
     res.send("User-agent: *\nDisallow:");
 });
-
-// Upload a FASTA sequence:
-app.post('/fasta', routes.parseFasta);
 

@@ -13,22 +13,7 @@ function readMultipleFiles(evt) {
     var files = evt.target.files; 
 
     if (files) {
-        for (var i=0, f; f=files[i]; i++) {
-            var r = new FileReader();
-            r.onload = (function(f) {
-                return function(e) {
-                    var contents = e.target.result;
-                    alert( "Got the file.n" 
-                          +"name: " + f.name + "n"
-                          +"type: " + f.type + "n"
-                          +"size: " + f.size + " bytesn"
-                          + "starts with: " + contents.substr(1, contents.indexOf("n"))
-                         ); 
-                };
-            })(f);
-
-            r.readAsText(f);
-        }   
+        evt.target.parentElement.parentElement.submit();
     } else {
         alert("Failed to load files"); 
     }
