@@ -383,7 +383,7 @@ exports.parseFasta = function(request, response){
         googleAnalyticsID: config.get('googleAnalyticsID'),    
         googleAnalyticsHostname: config.get('googleAnalyticsHostname')    
     };
-    
+
     if(request.files.fileUpload && request.files.fileUpload.size > 0){
         fs.readFile(request.files.fileUpload.path, 'utf8', function (error, data) {
             if (error) {
@@ -394,22 +394,24 @@ exports.parseFasta = function(request, response){
             }
             try {
                 var sequences = fasta.getFasta(data);
+                var promises = [];
                 sequences.forEach(function(sequence){
-                    fasta.matchingMD5(sequence, function(hit){
-                        if(hit){
-                            
-                            // These ones I can use without too much of an effrot
-                        } else {
-                            // These ones I must align
-                        }
+                    var promise = new Promise(function (resolve, reject) {
+                        fasta.matchingMD5(sequence).then(function(data) {
+                            if (data.length > 0) {
+                                for(var i in sequence) { data[0][i] = sequence[i]; }
+                                resolve(data[0]);
+                            } else {
+                                resolve(sequence);
+                            }
+                        });
                     });
-
+                    promises.push(promise);
                 });
-                args.sequences = sequences;
-                response.render('home_page', args);
-//                return response.status(200).send({
-//                    status: 200
-//                });
+                Promise.all(promises).then(function(hits){
+                    args.sequences = hits;
+                    return response.render('home_page', args);
+                });
             } catch (exception) {
                 logger.info("Internal Server error when parsing fasta file.");
                 return response.status(500).send({
