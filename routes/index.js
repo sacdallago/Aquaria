@@ -399,7 +399,11 @@ exports.parseFasta = function(request, response){
                     var promise = new Promise(function (resolve, reject) {
                         fasta.matchingMD5(sequence).then(function(data) {
                             if (data.length > 0) {
-                                for(var i in sequence) { data[0][i] = sequence[i]; }
+                                // Merge sequence attributes into data[0] object
+                                for(var i in sequence) {
+                                    data[0][i] = sequence[i];
+                                }
+                                // Return data[0], which was merged with sequence
                                 resolve(data[0]);
                             } else {
                                 resolve(sequence);

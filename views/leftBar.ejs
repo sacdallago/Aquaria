@@ -37,7 +37,7 @@
         <ul style="padding: 0 6px; margin: 0.5em 0 0 0; list-style: none;">
             <% for(var i=0; i < sequences.length; i++) { %>
             <li>
-                <a href='#' class="fasta_file_id_selected" data-accession="<%= sequences[i].Primary_Accession %>">
+                <a href='#' class="fasta_file_id_selected" data-name="<%= sequences[i].name %>" data-accession="<%= sequences[i].Primary_Accession %>">
                     <% if (typeof sequences[i].Primary_Accession != "undefined") { %>
                         <%= sequences[i].Primary_Accession %>
                     <% } else { %>
@@ -53,14 +53,15 @@
 </div>
 
 <script>
-    $('fasta_file_id_selected').select(function(){
-        
-        console.log(this);
-//        AQUARIA.remote.getOrganismSynonyms([{"organism_id" : ui.item.id}], function(orgNames) {
-//									localStorage.organism_id = ui.item.id;
-//									localStorage.preferred_organism_name = ui.item.value;
-//									displayOrgSynonyms(orgNames);
-//								});
+    $('.fasta_file_id_selected').click(function(){
+        var element = $(this).data();
+
+        if(element.accession){
+            startLogoSpin();
+            AQUARIA.loadAccession([element.accession], null, null, false, element.name);
+        } else {
+            
+        }
     });
 
 </script>
