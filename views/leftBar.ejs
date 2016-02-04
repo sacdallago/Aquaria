@@ -37,7 +37,7 @@
         <ul style="padding: 0 6px; margin: 0.5em 0 0 0; list-style: none;">
             <% for(var i=0; i < sequences.length; i++) { %>
             <li>
-                <a href='<%= sequences[i].md5 %>'>
+                <a href='#' class="fasta_file_id_selected" data-accession="<%= sequences[i].Primary_Accession %>">
                     <% if (typeof sequences[i].Primary_Accession != "undefined") { %>
                         <%= sequences[i].Primary_Accession %>
                     <% } else { %>
@@ -51,6 +51,19 @@
     <% } %>
     </span>
 </div>
+
+<script>
+    $('fasta_file_id_selected').select(function(){
+        
+        console.log(this);
+//        AQUARIA.remote.getOrganismSynonyms([{"organism_id" : ui.item.id}], function(orgNames) {
+//									localStorage.organism_id = ui.item.id;
+//									localStorage.preferred_organism_name = ui.item.value;
+//									displayOrgSynonyms(orgNames);
+//								});
+    });
+
+</script>
 
 <!--Paste your Sequence-->
 <div class="panel" id="pasteSequence">

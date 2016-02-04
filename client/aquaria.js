@@ -1137,7 +1137,6 @@ var MAX_PROTEIN_HISTORY = 5;
 					delay : 300,
 					// user has selected an item from the autocomplete list
 					select : function(event, ui) {
-						//console.log('ui = ' + ui.toString() + " event: " + event.toString());
 						if (ui.item.value
 								&& ui.item.value.indexOf("No structures for: ") !== 0) {
 						  var primaryAccession = ui.item.id;
