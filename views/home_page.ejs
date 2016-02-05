@@ -5,7 +5,7 @@
 <!-- The following imports the HEAD html attribute -->
 <%- include head.ejs %>
 
-<!--<%- include dimmer.ejs %>-->
+<%- include submitToQueueModal.ejs %>
 
 <body id="home">
     <div id="wrapper">
@@ -36,7 +36,7 @@
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
                                 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        ga('create', '<%=googleAnalyticsID%>', '<%=googleAnalyticsHostname%>');
+            ga('create', '<%=googleAnalyticsID%>', '<%=googleAnalyticsHostname%>');
            ga('send', 'pageview');
     </script> 
     <%- include tests.ejs %>

@@ -19,4 +19,17 @@ function readMultipleFiles(evt) {
     }
 }
 
+// See leftBar.ejs
+
+$('.fasta_file_id_selected').click(function(){
+    var element = $(this).data();
+
+    if(element.accession){
+        startLogoSpin();
+        AQUARIA.loadAccession([element.accession], null, null, false, element.name);
+    } else {
+        alert("This element has no accession number");
+    }
+});
+
 document.getElementById('fileUpload').addEventListener('change', readMultipleFiles, false);

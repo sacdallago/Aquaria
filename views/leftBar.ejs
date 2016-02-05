@@ -33,38 +33,33 @@
         </form>
         <% if (typeof sequences != "undefined") { %>
         <p>
-        Parsed sequences:
+            Parsed sequences:
         <ul style="padding: 0 6px; margin: 0.5em 0 0 0; list-style: none;">
             <% for(var i=0; i < sequences.length; i++) { %>
+            <% if (typeof sequences[i].Primary_Accession != "undefined") { %>
             <li>
                 <a href='#' class="fasta_file_id_selected" data-name="<%= sequences[i].name %>" data-accession="<%= sequences[i].Primary_Accession %>">
-                    <% if (typeof sequences[i].Primary_Accession != "undefined") { %>
-                        <%= sequences[i].Primary_Accession %>
-                    <% } else { %>
-                        No hit
-                    <% } %>
+                    <%= sequences[i].Primary_Accession %>
                 </a>
             </li>
             <% } %>
+            <% } %>
         </ul>
         </p>
+
+    <% for(var i=0; i < sequences.length; i++) { %>
+    <% if (typeof sequences[i].Primary_Accession == "undefined") { %>
+    <p style="text-align: justify;">
+        Some sequences didn't produce allignments. If you wish to submit these to a queue and be alerted when they will be ready:
+    </p>
+    <p><input style="width:100%" type="button" value="Click here"></p>
+    <% break %>
+    <% } %>
+    <% } %>
+
     <% } %>
     </span>
 </div>
-
-<script>
-    $('.fasta_file_id_selected').click(function(){
-        var element = $(this).data();
-
-        if(element.accession){
-            startLogoSpin();
-            AQUARIA.loadAccession([element.accession], null, null, false, element.name);
-        } else {
-            
-        }
-    });
-
-</script>
 
 <!--Paste your Sequence-->
 <div class="panel" id="pasteSequence">
