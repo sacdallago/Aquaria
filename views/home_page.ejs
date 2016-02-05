@@ -27,7 +27,8 @@
             <h2 style="color: crimson;">Sorry, but Aquaria will not work with your browser</h2>
         </div>
         <%- include footer.ejs %> 
-    </div> <!-- /wrapper -->	
+    </div> <!-- /wrapper -->
+    <%- include tests.ejs %>
     <%- include imports.ejs %>  
     <%- include functions.ejs %>  
     <script>
@@ -39,6 +40,6 @@
             ga('create', '<%=googleAnalyticsID%>', '<%=googleAnalyticsHostname%>');
            ga('send', 'pageview');
     </script> 
-    <%- include tests.ejs %>
+    
 </body>
 </html>

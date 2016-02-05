@@ -32,4 +32,42 @@ $('.fasta_file_id_selected').click(function(){
     }
 });
 
+function openSubmitToQueueModal(){
+    $('.ui.modal.submitToQueue')
+        .modal('show')
+    ;
+}
+
+$('.ui.form')
+    .form({
+    fields: {
+        file: {
+            identifier: 'file',
+            rules: [
+                {
+                    type   : 'empty',
+                    prompt : 'The file input cannot be left empty.'
+                }
+            ]
+        },
+        email: {
+            identifier: 'email',
+            rules: [
+                {
+                    type: 'empty',
+                    prompt: 'The email field cannot be left empty.'
+                },
+                {
+                    type: 'email',
+                    prompt: 'The email field must contain a valid email.'
+                },
+            ]
+        },
+    },
+    onSuccess: function(event,fields){
+        console.log(fields);
+    }
+})
+;
+
 document.getElementById('fileUpload').addEventListener('change', readMultipleFiles, false);

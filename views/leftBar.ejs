@@ -33,7 +33,7 @@
         </form>
         <% if (typeof sequences != "undefined") { %>
         <p>
-            Parsed sequences:
+            Sequences present in Aquaria:
         <ul style="padding: 0 6px; margin: 0.5em 0 0 0; list-style: none;">
             <% for(var i=0; i < sequences.length; i++) { %>
             <% if (typeof sequences[i].Primary_Accession != "undefined") { %>
@@ -50,9 +50,9 @@
     <% for(var i=0; i < sequences.length; i++) { %>
     <% if (typeof sequences[i].Primary_Accession == "undefined") { %>
     <p style="text-align: justify;">
-        Some sequences didn't produce allignments. If you wish to submit these to a queue and be alerted when they will be ready:
+        One or more sequences you requested are not in Aquaria. If you wish to submit a job to calculate alignments for these sequences, please
     </p>
-    <p><input style="width:100%" type="button" value="Click here"></p>
+    <p><input style="width:100%" type="button" onclick="openSubmitToQueueModal()" value="Click here"></p>
     <% break %>
     <% } %>
     <% } %>

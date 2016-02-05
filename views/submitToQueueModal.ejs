@@ -1,18 +1,32 @@
-<div class="ui modal">
-  <i class="close icon"></i>
-  <div class="header">
-    Modal Title
-  </div>
-  <div class="image content">
-    <div class="image">
-      An image can appear on left or an icon
+<div class="ui modal submitToQueue">
+    <div class="header">
+        Upload sequences to be processed
     </div>
-    <div class="description">
-      A description can appear on the right
+
+    <div class="content" style="width:initial;">
+        <div class="description" style="text-align:justify">
+            In the following form you can upload a fasta file with an arbitrary number of sequences. For every sequence that isn't already in Aquaria we will submit a job with a specific id. Once we have created all jobs, we will send you an email with links to every one of them.<br>
+            You can check the status of the job by clicking on the respective link from the email you will receive or try to submit the file again from the main interface. <br>
+            <strong>Note:</strong> You will not receive an email once the job has finished.
+        </div>
+        <br>
+        <div class="ui form">
+            <div class="field">
+                <label>Select a fasta file:</label>
+                <input data-validate="file" name="file" type="file" required>
+            </div>
+            <div class="field">
+                <label>Enter you email address:</label>
+                <input data-validate="email" name="email" style="width:initial;" type="email" required placeholder="Enter a valid email address">
+            </div>
+            <div style="color:red;" class="ui error message"></div>
+            <button style="width:100%" class="ui submit button">
+                Submit your request
+            </button>
+        </div>
     </div>
-  </div>
-  <div class="actions">
-    <div class="ui button">Cancel</div>
-    <div class="ui button">OK</div>
-  </div>
+    <div class="actions">
+        <small>To close this window, press on the black area</small>
+    </div>
+
 </div>
