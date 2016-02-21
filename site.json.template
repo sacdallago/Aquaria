@@ -2,7 +2,7 @@
 	"port"		: "8009",
 	"development"	: "true",
   "host"      : "localhost",
-	"dbhost"     	: "database.aquaria.ws",
+	"dbhost"     	: "aquariadb.crzff6hekdup.us-east-1.rds.amazonaws.com",
 	"dbuser"     	: "read_only",
 	"dbpassword" 	: "Aquaria_4_the_win!",
 	"database" 	: "aquaria",

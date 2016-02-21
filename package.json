@@ -10,7 +10,7 @@
     },
     "dependencies": {
         "express": "~3.10.0",
-        "dnode": "*",
+        "dnode": "~1.2.2",
         "shoe" : "*",
         "mysql" : "~2.1.1",
         "ejs" : "~0.8.4",
