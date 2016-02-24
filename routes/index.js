@@ -432,3 +432,15 @@ exports.parseFasta = function(request, response){
         });
     }
 }
+
+exports.sequenceInUrl = function(request, response, next) {
+    var query = request.query;
+    
+    if(query.keys.contains("sequence") && query.keys.contains("pssh")){
+        
+    }
+    response.status(200).send({
+        query: request.query
+    });
+    // next();
+}

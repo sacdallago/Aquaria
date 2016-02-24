@@ -59,6 +59,7 @@ app.configure('production', function(){
 });
 
 var server = http.createServer(app);
+
 server.listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
 });
@@ -112,6 +113,7 @@ app.set('view options', {
 // Upload a FASTA sequence:
 app.post('/fasta', routes.parseFasta);
 app.get('/fasta', routes.home_page);
+app.get('/user?', routes.sequenceInUrl);
 // Get is fallback in case someone reloads the page or goes to /fasta instead of root
 
 app.get('/launch', routes.launchPage);
