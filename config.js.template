@@ -13,6 +13,10 @@ module.exports = {
 			"hostedService": process.env.glservice || ""
         }
     },
+    "pssh": {
+        "endpoint": process.env.pssh,
+        "secret": process.env.psshSecret || "1monkeyForest"
+    },
     "app" : {
     	"name": "Aquaria",
         "host": process.env.host || "localhost",

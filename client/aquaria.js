@@ -807,8 +807,8 @@ var MAX_PROTEIN_HISTORY = 5;
 						if (term in cache_organism_synonyms) {
 							response(cache_organism_synonyms[term]);
 							return;
-						}
-						;
+						};
+
 						startLogoSpin();
 						AQUARIA.remote.queryOrganism(term, function(data) {
 							stopLogoSpin();

@@ -16,6 +16,8 @@ var metainfo = require('./aquaria/metainfo');
 var viewer_format = require('./aquaria/generate_viewer_format');
 var viewer = require('./aquaria/viewer');
 var snapshot = require('./aquaria/snapshot');
+var calculatePssh = require('./aquaria/calculatePssh');
+var checkFasta = require('./aquaria/parseFasta');
 var config = require('./common/config');
 
 var JAR_EXPIRY = 1000 * 60 * 60 * 24 * 7;
@@ -81,6 +83,8 @@ var sock = shoe(function (stream) {
         createAppJNLP           : viewer.createJNLP,
         createToolkitAppJNLP    : viewer.createToolkitJNLP,
         get_sequence            : matching_structures.get_sequence,
+        checkFasta              : checkFasta.checkFasta,
+        calculatePssh           : calculatePssh.pssh
     });
     d.pipe(stream).pipe(d);
 });
@@ -92,11 +96,6 @@ app.set('view options', {
     layout: false
 });
 
-
-// Upload a FASTA sequence:
-app.post('/fasta', routes.parseFasta);
-// Fallback to home if user GETs /fasta
-app.get('/fasta', routes.home_page);
 app.get('/user?', routes.sequenceInUrl);
 
 app.get('/launch', routes.launchPage);

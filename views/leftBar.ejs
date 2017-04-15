@@ -21,58 +21,28 @@
     </span>
 </div>
 
-<!--Upload a file-->
-<div class="panel" id="uploadFile">
-    <h3>Fasta</h3>
-    <span class="content">
-        <form action="/fasta" method="post" enctype="multipart/form-data">
+<% if(hasPsshEndpoint) { %>
+    <!--Upload a file-->
+    <div class="panel" id="uploadFile">
+        <h3>Fasta</h3>
+        <span class="content">
             <p class="fileUpload" id="fileInput">
                 <span>Select or drop a file</span>
                 <input class="upload" type="file" id="fileUpload" name="fileUpload" placeholder="..." autocomplete="off" data-intro="Upload a file from your computer" data-position="right" />
             </p>
-        </form>
-        <% if (typeof sequences != "undefined") { %>
-        <p>
-            Sequences present in Aquaria:
-        <ul style="padding: 0 6px; margin: 0.5em 0 0 0; list-style: none;">
-            <% for(var i=0; i < sequences.length; i++) { %>
-            <% if (typeof sequences[i].Primary_Accession != "undefined") { %>
-            <li>
-                <a href='#' class="fasta_file_id_selected" data-name="<%= sequences[i].name %>" data-accession="<%= sequences[i].Primary_Accession %>">
-                    <%= sequences[i].Primary_Accession %>
-                </a>
-            </li>
-            <% } %>
-            <% } %>
-        </ul>
-        </p>
-
-    <% for(var i=0; i < sequences.length; i++) { %>
-    <% if (typeof sequences[i].Primary_Accession == "undefined") { %>
-    <p style="text-align: justify;">
-        One or more sequences you requested are not in Aquaria. If you wish to submit a job to calculate alignments for these sequences, please
-    </p>
-    <p><input style="width:100%" type="button" onclick="openSubmitToQueueModal()" value="Click here"></p>
-    <% break %>
-    <% } %>
-    <% } %>
-
-    <% } %>
-    </span>
-</div>
-
-<!--Paste your Sequence-->
-<div class="panel" id="pasteSequence">
-    <h3>Paste your sequence</h3>
-    <span class="content">
-        <form> 
-            <p id="sequenceInput"><input type="text" id="sequenceUpload" name="sequenceUpload" placeholder="GGCAGATTCCCCCTAGAGT..." autocomplete="off" data-intro="Paste a sequence" data-position="right" /></p>
-        </form>
-    </span>
-</div>
+            <ul id="fastaParseResults" style="padding: 0 6px; margin: 0.5em 0 0 0; list-style: none;"></ul>
+            <span style="display: none;" id="calculatePssh">
+                <p style="text-align: justify;">
+                    One or more sequences you requested are not in Aquaria. If you wish to submit a job to calculate alignments for these sequences, please
+                </p>
+                <p><input style="width:100%" type="button" onclick="openSubmitToQueueModal()" value="Click here"></p>
+            </span>
+        </span>
+    </div>
+<% } %>
 
 <!--More information-->
 <div class="panel" id="about" data-intro="UniProt summary of the specified protein's function." data-position="right" >
     <h3>About <span class="explanation"> Uniprot ID</span></h3>
-    <div id="uniProtDesc"></div>					
+    <div id="uniProtDesc"></div>
 </div>

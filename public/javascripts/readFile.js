@@ -1,4 +1,6 @@
 var fileReadCompatibility = false;
+var resultsDisplay = document.getElementById("fastaParseResults");
+var calculatePsshSpan = document.getElementById("calculatePssh");
 
 // Check for the various File API support.
 if (window.File && window.FileReader && window.FileList && window.Blob) {
@@ -12,25 +14,38 @@ function readMultipleFiles(evt) {
     //Retrieve all the files from the FileList object
     var files = evt.target.files;
 
-    if (files) {
-        evt.target.parentElement.parentElement.submit();
+    if (files !== undefined && files.length > 0) {
+        var file = files[0];
+        var fileReader = new FileReader();
+        fileReader.onload = function(element) {
+            var contents = element.target.result;
+            AQUARIA.remote.checkFasta(contents, function(results){
+                results.forEach(function(sequence){
+                    if(sequence.Primary_Accession !== undefined){
+                        var li = document.createElement('li');
+                        var a = document.createElement('a');
+
+                        a.href = "#";
+                        a.textContent = sequence.Primary_Accession;
+                        a.addEventListener("click", function(){
+                            startLogoSpin();
+                            AQUARIA.loadAccession([sequence.Primary_Accession], null, null, false, null);
+                            return;
+                        });
+
+                        li.appendChild(a);
+                        resultsDisplay.appendChild(li);
+                    } else {
+                        calculatePsshSpan.style.display = "block";
+                    }
+                });
+            });
+        };
+        fileReader.readAsText(file);
     } else {
-        alert("Failed to load files"); 
+        alert("Failed to load file");
     }
 }
-
-// See leftBar.ejs
-
-$('.fasta_file_id_selected').click(function(){
-    var element = $(this).data();
-
-    if(element.accession){
-        startLogoSpin();
-        AQUARIA.loadAccession([element.accession], null, null, false, element.name);
-    } else {
-        alert("This element has no accession number");
-    }
-});
 
 function openSubmitToQueueModal(){
     $('.ui.modal.submitToQueue')
@@ -60,14 +75,13 @@ $('.ui.form')
                 {
                     type: 'email',
                     prompt: 'The email field must contain a valid email.'
-                },
+                }
             ]
-        },
+        }
     },
     onSuccess: function(event,fields){
         console.log(fields);
     }
-})
-;
+});
 
 document.getElementById('fileUpload').addEventListener('change', readMultipleFiles, false);

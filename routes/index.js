@@ -13,7 +13,6 @@ var versionString = require('../aquaria/versionString');
 var Promise = require('es6-promise').Promise;
 var autocomplete = require('../aquaria/autocomplete');
 var viewerFormat = require('../aquaria/generate_viewer_format');
-var fasta = require ('../aquaria/parseFasta');
 
 var formats = {
     'json' : {
@@ -43,7 +42,8 @@ exports.home_page = function(request, response, next){
         console.log('INSIDE : reqID:' + request.params.id);
         var args = { title: 'Success',
             googleAnalyticsID: config.analytics.google.trackingId,
-            googleAnalyticsHostname: config.analytics.google.hostname
+            googleAnalyticsHostname: config.analytics.google.hostname,
+            hasPsshEndpoint: config.pssh.endpoint !== undefined
         };
         if (request.params.id && request.params.id.indexOf('/leap') == 0) {
             args['interactive'] = 'leap';
@@ -58,7 +58,8 @@ exports.home_page = function(request, response, next){
             var initialParams = {primary_accession: pdbRow.Accession, pdb_id: request.params.id, pdb_chain: pdbChain};
             var args = { title: 'Success', initialParams: JSON.stringify(initialParams),
                 googleAnalyticsID: config.analytics.google.trackingId,
-                googleAnalyticsHostname: config.analytics.google.hostname
+                googleAnalyticsHostname: config.analytics.google.hostname,
+                hasPsshEndpoint: config.pssh.endpoint !== undefined
             };
             response.render('home_page', args);
         });
@@ -368,63 +369,7 @@ exports.pdb = function(request, callback){
 
 exports.launchPage = function (request, callback) {
     callback.redirect("http://vizbi.org:8009/launchPage.html");
-}
-
-exports.parseFasta = function(request, response){
-    var args = {
-        title: 'Success',
-        googleAnalyticsID: config.analytics.google.trackingId,
-        googleAnalyticsHostname: config.analytics.google.hostname
-    };
-
-    if(request.files.fileUpload && request.files.fileUpload.size > 0){
-        fs.readFile(request.files.fileUpload.path, 'utf8', function (error, data) {
-            if (error) {
-                return response.status(500).send({
-                    status: 500,
-                    message: "Internal Server error when reading file."
-                });
-            }
-            try {
-                var sequences = fasta.getFasta(data);
-                var promises = [];
-                sequences.forEach(function(sequence){
-                    var promise = new Promise(function (resolve, reject) {
-                        fasta.matchingMD5(sequence).then(function(data) {
-                            if (data.length > 0) {
-                                // Merge sequence attributes into data[0] object
-                                for(var i in sequence) {
-                                    data[0][i] = sequence[i];
-                                }
-                                // Return data[0], which was merged with sequence
-                                resolve(data[0]);
-                            } else {
-                                resolve(sequence);
-                            }
-                        });
-                    });
-                    promises.push(promise);
-                });
-                Promise.all(promises).then(function(hits){
-                    args.sequences = hits;
-                    return response.render('home_page', args);
-                });
-            } catch (exception) {
-                logger.info("Internal Server error when parsing fasta file.");
-                return response.status(500).send({
-                    status: 500,
-                    message: "Internal Server error when parsing fasta file.",
-                    error: exception.stack
-                });
-            }
-        });
-    } else {
-        return response.status(400).send({
-            status: 400,
-            message: "No file was passed in the request."
-        });
-    }
-}
+};
 
 exports.sequenceInUrl = function(request, response, next) {
     var query = request.query;
