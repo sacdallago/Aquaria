@@ -10,3 +10,4 @@ site.json
 jar/*
 aquaria_start_plist.sh
 SQL/*
+.idea/
