@@ -10,7 +10,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
 function readMultipleFiles(evt) {
     //Retrieve all the files from the FileList object
-    var files = evt.target.files; 
+    var files = evt.target.files;
 
     if (files) {
         evt.target.parentElement.parentElement.submit();

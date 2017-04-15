@@ -55,11 +55,8 @@ Installation
 - load node prereqs
 	Open Terminal and cd to root of Aquaria directory
 	run:
-	 - npm install
-	 - npm run setupTemplates
-	 - npm run updateJars
-	 - ./build.sh
-  you may edit the site.json and change the port if required.
+	 - npm run build
+  you may edit the common/config.json and change the port if required, or pass configuration options as environment variables.
   
 -------
 Operation

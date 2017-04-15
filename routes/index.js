@@ -4,9 +4,6 @@
 
 var logger = require('../common/log');
 matching_structures = require('../aquaria/matching_structures');
-//matching_structures_sean = require('../aquaria/matching_structures_sean');
-//matching_structures_interactions = require('../aquaria/matching_structures_interactions');
-//david = require('../aquaria/david');
 var fs = require('fs');
 var path = require('path');
 var zlib = require('zlib');
@@ -18,7 +15,7 @@ var autocomplete = require('../aquaria/autocomplete');
 var viewerFormat = require('../aquaria/generate_viewer_format');
 var fasta = require ('../aquaria/parseFasta');
 
-var formats = { 
+var formats = {
     'json' : {
         mime : "plain/text"
     },
@@ -45,9 +42,9 @@ exports.home_page = function(request, response, next){
     if (typeof request.params.id == 'undefined' || request.params.id.match(/(?:\/leap)?([A-Z][0-9][A-Z,0-9][A-Z,0-9][A-Z,0-9][0-9])$/) ) {
         console.log('INSIDE : reqID:' + request.params.id);
         var args = { title: 'Success',
-                    googleAnalyticsID: config.get('googleAnalyticsID'),    
-                    googleAnalyticsHostname: config.get('googleAnalyticsHostname')    
-                   };
+            googleAnalyticsID: config.analytics.google.trackingId,
+            googleAnalyticsHostname: config.analytics.google.hostname
+        };
         if (request.params.id && request.params.id.indexOf('/leap') == 0) {
             args['interactive'] = 'leap';
         }
@@ -60,16 +57,13 @@ exports.home_page = function(request, response, next){
         matching_structures.getAccessionForPDB(pdbId, pdbChain).then (function (pdbRow) {
             var initialParams = {primary_accession: pdbRow.Accession, pdb_id: request.params.id, pdb_chain: pdbChain};
             var args = { title: 'Success', initialParams: JSON.stringify(initialParams),
-                        googleAnalyticsID: config.get('googleAnalyticsID'),    
-                        googleAnalyticsHostname: config.get('googleAnalyticsHostname')    
-                       }
+                googleAnalyticsID: config.analytics.google.trackingId,
+                googleAnalyticsHostname: config.analytics.google.hostname
+            };
             response.render('home_page', args);
-
         });
     }
     else {
-        //      var autocomplete.queryProteinWildOrganism()
-        //    	console.log('nexting! : reqID:' + request.params.id);
         next();
     }
 };
@@ -81,8 +75,8 @@ exports.jar = function(request, response, next){
     var basename = path.basename(jarname, '.jar');
     if (basename) {
 
-        var fullPath = [JAR_PATH , basename , '__V' , version , '.jar'].join(''); 
-        var basenameWithVersion = path.basename(fullPath); 
+        var fullPath = [JAR_PATH , basename , '__V' , version , '.jar'].join('');
+        var basenameWithVersion = path.basename(fullPath);
         console.log('basename with version: ' + basenameWithVersion);
         sendFile(response, fullPath, basenameWithVersion, true, {'Content-Type': 'application/java-archive', 'Cache-Control': 'public, max-age=' + JAR_EXPIRY, "Expires": "" + (new Date().getTime()+ JAR_EXPIRY) });
     }
@@ -103,11 +97,10 @@ exports.jnlp = function(request, response, next){
     }
 
     if (request.params.filename === 'aquaria') {
-
-        jnlp = viewer.createAppletJNLP(config.get('development') === 'true');
+        jnlp = viewer.createAppletJNLP(config.app.development);
     }
     else if (request.params.filename === 'aquariaapp') {
-        jnlp = viewer.createAppJNLP(config.get('development') === 'true', {});
+        jnlp = viewer.createAppJNLP(config.app.development, {});
     }
     writeResponseString(response, jnlp, 'application/x-java-jnlp-file');
 }
@@ -117,14 +110,14 @@ var writeResponseString = function(response, body, type) {
         'Content-Length': body.length,
         'Content-Type': type });
     response.end(body);
-}
+};
 
 var writeErrorResponse = function(response, body) {
     response.writeHead(500, {
         'Content-Length': body.length,
         'Content-Type': 'text/plain' });
     response.end(body);
-}
+};
 
 var getMatchingStructuresData = function(request, response, next) {
     return new Promise (function (resolve, reject) {
@@ -139,7 +132,7 @@ var getMatchingStructuresData = function(request, response, next) {
                 selector: [id],
                 selectPDB: request.params.pdbid,
                 selectChain: request.params.chainid
-            };        
+            };
             var sequences = null;
             //(loadRequest, sequenceCallback, initialClusterCallback, finalCallback) {
             matching_structures.get_matching_structures(loadRequest, function (loadRequestSequence, sequenceRet) {
@@ -157,7 +150,7 @@ var getMatchingStructuresData = function(request, response, next) {
         catch (err) {
             console.log("ERR caught writing JSON for: " + id + ", err: " + err);
             response.end("{}");
-        }    
+        }
     });
 };
 exports.matchingStructuresExt = function(request, response, next){
@@ -327,7 +320,7 @@ var sendFile = function(response, fullPath, filename, unzipped, headers) {
 
 exports.googleHostedService = function (request, callback) {
     var args = { };
-    args['googleHostedService'] = config.get('googleHostedService');
+    args['googleHostedService'] = config.analytics.google.hostedService;
     callback.render('googlehostedservice', args);
 };
 
@@ -380,8 +373,8 @@ exports.launchPage = function (request, callback) {
 exports.parseFasta = function(request, response){
     var args = {
         title: 'Success',
-        googleAnalyticsID: config.get('googleAnalyticsID'),    
-        googleAnalyticsHostname: config.get('googleAnalyticsHostname')    
+        googleAnalyticsID: config.analytics.google.trackingId,
+        googleAnalyticsHostname: config.analytics.google.hostname
     };
 
     if(request.files.fileUpload && request.files.fileUpload.size > 0){
@@ -435,9 +428,9 @@ exports.parseFasta = function(request, response){
 
 exports.sequenceInUrl = function(request, response, next) {
     var query = request.query;
-    
+
     if(query.keys.contains("sequence") && query.keys.contains("pssh")){
-        
+
     }
     response.status(200).send({
         query: request.query

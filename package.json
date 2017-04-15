@@ -1,11 +1,13 @@
 {
     "name": "aquaria",
     "version": "1.0.1",
-    "private": true,
     "scripts": {
         "start": "node app",
         "test": "make test",
-        "setupTemplates" : "mkdir jar;mkdir public/cache;cp site.json.template site.json",
+        "clear-cache": "mkdir -p public/cache/ && rm public/cache/*",
+        "build": "npm run setupTemplates && npm run updateJars && npm run browserify",
+        "browserify": "browserify client/*.js client/pv/**.js -o public/javascripts/aquaria.js",
+        "setupTemplates" : "mkdir jar;mkdir public/cache;cp config.js.template common/config.js",
         "updateJars": "curl -o jar/aquariaJars.tar.gz http://odonoghuelab.org/Downloads/Aquaria/aquariaJars.tar.gz;tar -zxvf jar/aquariaJars.tar.gz;rm jar/aquariaJars.tar.gz"
     },
     "dependencies": {
@@ -15,7 +17,6 @@
         "mysql" : "~2.1.1",
         "ejs" : "~0.8.4",
         "forever" : "~0.10.8",
-        "express" : "~3.10.0",
         "mocha" : "~1.12.0",
         "should" : "~1.2.2",
         "mocha-html-reporter" : "~0.0.1",
@@ -32,5 +33,8 @@
         "numeric" : "~1.2.6",
         "biojs-io-fasta" : "~0.1.12",
         "bionode-fasta" : "~0.5.3"
+    },
+    "devDependencies": {
+        "browserify": "~14.3.0"
     }
 }

@@ -12,8 +12,8 @@ function pad(num, size) {
   return s.substr(s.length-size);
 }
 
-var majorVersion =  parseInt(config.get('major_version'));
-var minorVersion =  parseInt(config.get('minor_version'));
+var majorVersion =  parseInt(config.app.majorVersion);
+var minorVersion =  parseInt(config.app.minorVersion);
 
 var loadVersions = function (filename) {
   

@@ -18,7 +18,6 @@ var viewer = require('./aquaria/viewer');
 var snapshot = require('./aquaria/snapshot');
 var config = require('./common/config');
 
-
 var JAR_EXPIRY = 1000 * 60 * 60 * 24 * 7;
 
 var app = express();
@@ -28,7 +27,7 @@ var app = express();
 var access_logfile = fs.createWriteStream('log/access.log', {flags: 'a'});
 
 app.configure(function(){
-    app.set('port', process.env.PORT || config.get('port'));
+    app.set('port', process.env.PORT || config.app.port);
     // Switched to EJS engine - see http://stackoverflow.com/questions/4600952/
     // Info on EJS ('Embedded JavaScript templates') - https://github.com/visionmedia/ejs
     app.set('view engine', 'ejs');
@@ -45,7 +44,6 @@ app.configure(function(){
     app.set('views', __dirname + '/views');
 });
 
-//app.configure('development', function(){
 app.configure('production', function(){
     app.use(express.errorHandler());
 });
