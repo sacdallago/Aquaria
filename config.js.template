@@ -1,0 +1,24 @@
+module.exports = {
+    "database" : {
+        "user": process.env.dbuser || "read_only",
+        "password": process.env.dbpassword || "Aquaria_4_the_win!",
+        "port": process.env.dbport || 3306,
+        "host": process.env.dbhost || "aquariadb.crzff6hekdup.us-east-1.rds.amazonaws.com",
+        "database": process.env.db || "aquaria"
+    },
+    "analytics" : {
+        "google" : {
+            "trackingId": process.env.gltrackingid || "",
+			"hostname": process.env.glhostname || "",
+			"hostedService": process.env.glservice || ""
+        }
+    },
+    "app" : {
+    	"name": "Aquaria",
+        "host": process.env.host || "localhost",
+        "development": process.env.NODE_ENV != "production",
+        "port": process.env.port || "8009",
+        "majorVersion": "1",
+        "minorVersion": "0"
+    }
+};
