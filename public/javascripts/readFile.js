@@ -80,7 +80,11 @@ $('.ui.form')
         }
     },
     onSuccess: function(event,fields){
-        console.log(fields);
+        var fileReader = new FileReader();
+        fileReader.onload = function(element) {
+
+        };
+        fileReader.readAsText(fields.file);
     }
 });
 

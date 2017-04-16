@@ -13,7 +13,7 @@ var getFasta = function(textFile){
 
 var matchingMD5 = function(sequence){
     var sqlquery = "SELECT Primary_Accession, Sequence, MD5_Hash, Description, Length \
-FROM protein_sequence WHERE MD5_Hash = ?;";
+                    FROM protein_sequence WHERE MD5_Hash = ?;";
     return connector.queryPromise(sqlquery, sequence.md5);
 };
 

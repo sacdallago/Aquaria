@@ -1,40 +1,42 @@
 {
-    "name": "aquaria",
-    "version": "1.0.1",
-    "scripts": {
-        "start": "node app",
-        "test": "make test",
-        "clear-cache": "mkdir -p public/cache/ && rm public/cache/*",
-        "build": "npm run setupTemplates && npm run updateJars && npm run browserify",
-        "browserify": "browserify client/*.js client/pv/**.js -o public/javascripts/aquaria.js",
-        "setupTemplates" : "mkdir jar;mkdir public/cache;cp config.js.template common/config.js",
-        "updateJars": "curl -o jar/aquariaJars.tar.gz http://odonoghuelab.org/Downloads/Aquaria/aquariaJars.tar.gz;tar -zxvf jar/aquariaJars.tar.gz;rm jar/aquariaJars.tar.gz"
-    },
-    "dependencies": {
-        "express": "~3.10.0",
-        "dnode": "~1.2.2",
-        "shoe" : "*",
-        "mysql" : "~2.1.1",
-        "ejs" : "~0.8.4",
-        "forever" : "~0.10.8",
-        "mocha" : "~1.12.0",
-        "should" : "~1.2.2",
-        "mocha-html-reporter" : "~0.0.1",
-        "winston" : "~0.7.2",
-        "emailjs" : "~0.3.4",
-        "lru-cache" : "~2.5.0",
-        "es6-promise" : "~0.1.1",
-        "static-expiry" : "~0.0.10",
-        "commander" : "~2.2.0",
-        "domready" : "~1.0.4",
-        "jade": "*",
-        "molecular-control-toolkit-js" : "*",
-        "seedrandom" : "*",
-        "numeric" : "~1.2.6",
-        "biojs-io-fasta" : "~0.1.12",
-        "bionode-fasta" : "~0.5.3"
-    },
-    "devDependencies": {
-        "browserify": "~14.3.0"
-    }
+  "name": "aquaria",
+  "version": "1.0.1",
+  "scripts": {
+    "start": "node app",
+    "test": "make test",
+    "clear-cache": "mkdir -p public/cache/ && rm public/cache/*",
+    "build": "npm run setupTemplates && npm run updateJars && npm run browserify",
+    "browserify": "browserify client/*.js client/pv/**.js -o public/javascripts/aquaria.js",
+    "setupTemplates": "mkdir jar;mkdir public/cache;cp config.js.template common/config.js",
+    "updateJars": "curl -o jar/aquariaJars.tar.gz http://odonoghuelab.org/Downloads/Aquaria/aquariaJars.tar.gz;tar -zxvf jar/aquariaJars.tar.gz;rm jar/aquariaJars.tar.gz"
+  },
+  "dependencies": {
+    "biojs-io-fasta": "~0.1.12",
+    "bionode-fasta": "~0.5.3",
+    "commander": "~2.2.0",
+    "dnode": "~1.2.2",
+    "domready": "~1.0.4",
+    "ejs": "~0.8.4",
+    "emailjs": "~0.3.4",
+    "es6-promise": "~0.1.1",
+    "express": "~3.10.0",
+    "forever": "~0.10.8",
+    "jade": "*",
+    "lru-cache": "~2.5.0",
+    "mocha": "~1.12.0",
+    "mocha-html-reporter": "~0.0.1",
+    "molecular-control-toolkit-js": "*",
+    "mysql": "~2.1.1",
+    "numeric": "~1.2.6",
+    "request": "^2.81.0",
+    "seedrandom": "*",
+    "shoe": "*",
+    "should": "~1.2.2",
+    "static-expiry": "~0.0.10",
+    "validator": "^7.0.0",
+    "winston": "~0.7.2"
+  },
+  "devDependencies": {
+    "browserify": "~14.3.0"
+  }
 }
