@@ -2,13 +2,14 @@ var exec = require('child_process').exec;
 var fs = require('fs');
 var common_utils = require('../common/common_utils');
 var ejs = require('ejs');
+var logger = require('../common/log');
 
 var WEBSITE_PUBLIC_PATH = "/Users/Webm/SparkleShare/Aquaria/Website/public";
 var CACHE_PATH = "/cache/";
 
 var JNLP_TEMPLATE;
 fs.readFile('views/aquaria.ejs', 'utf8', function (err, template) {
-	console.log("The template is ; " + JNLP_TEMPLATE + ", err is : " + err);
+    logger.info("The template is ; " + template + ", err is : " + err);
 	JNLP_TEMPLATE = template;
 });
 

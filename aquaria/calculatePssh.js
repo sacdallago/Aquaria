@@ -5,15 +5,16 @@ const parseFasta = require('./parseFasta');
 
 module.exports = {
     pssh: function(fasta, email, callback) {
-        if(!validator.isEmail(email)){
-            throw 'Not a valid email address';
-        }
-
-        if(config.pssh === undefined || !validator.isURL(config.pssh.endpoint)){
-            throw 'No pssh endpoint defined';
-        }
-
         callback = callback || function(){};
+
+        if(email === undefined || email === null || !validator.isEmail(email)){
+            return callback(false);
+        }
+
+        if(config.pssh === undefined || config.pssh.endpoint === undefined || !validator.isURL(config.pssh.endpoint)){
+            return callback(false);
+        }
+
         let sequences = getFasta(text);
         let promises = [];
 
