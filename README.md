@@ -16,23 +16,25 @@ The node instance will then be running in the background. In linux you can acces
 To view the log of Aquaria:
 - Get the machine's ID by calling `docker ps`. You will get something like:
 
-  ```
+```
   CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
 2e52a0ce2418        rostlab/aquaria     "npm start"         5 seconds ago       Up 4 seconds        0.0.0.0:8009->8009/tcp   awesome_northcutt
 ```
 
 - Get the logs by calling `docker logs 2e52a0ce2418` (from the example above)
+
+- You can change configuration parameters by passing `ENV` parameters when calling the `docker run` command. (e.g.: `docker run -e DBUSER='myUser' -p 8009:8009 rostlab/aquaria`)
   
 
 ## Install manually
 ----------
 Pre Installation
 - (MacOS Only) install command line tools for Mac
-	Start XCode.
-	Go to XCode/Preferences.
-	Click the "Downloads" tab.
-	Click "Components".
-	Click "Install" on the command line tools line.
+	- Start XCode.
+	- Go to XCode/Preferences.
+	- Click the "Downloads" tab.
+	- Click "Components".
+	- Click "Install" on the command line tools line.
 
 - Install npm and nodejs
 	from http://nodejs.org/: 
@@ -50,23 +52,20 @@ Aquaria is using node version v0.10.33
 
 --------
 Installation
- - git clone https://github.com/ODonoghueLab/Aquaria.git
+ - Download the repository via `git clone https://github.com/sacdallago/Aquaria.git`
  
-- load node prereqs
-	Open Terminal and cd to root of Aquaria directory
-	run:
-	 - npm run build
-  you may edit the common/config.json and change the port if required, or pass configuration options as environment variables.
-  
--------
-Operation
-To start and stop the server:
-	
-	Open Terminal and cd to root of Aquaria directory
-	run either `sh start.sh` or `sh stop.sh`
+- Install and build dependencies
+	Open Terminal and cd to root of Aquaria directory run:
+	- `npm install`
+	- `npm run build`
+  you may edit the `common/config.json` file and change the port if required, or pass configuration options as environment variables (e.g.: `DBUSER='myDbUser' npm start`).
+
+- Run:   
+    - `npm start`
+
 
 -------
 Changing the code
-- Aquaria uses requirejs to handle both server and client dependencies. After making changes to the client javascript files, run build.sh to compile the client files into 1 large file stored as public/javascripts/aquaria.js
+- Aquaria uses requirejs to handle both server and client dependencies. After making changes to the client javascript files, run `npm run browserify` to compile the client files into 1 large file stored as `public/javascripts/aquaria.js`.
 
 
