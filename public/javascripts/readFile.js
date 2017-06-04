@@ -79,12 +79,31 @@ $('.ui.form')
             ]
         }
     },
-    onSuccess: function(event,fields){
-        var fileReader = new FileReader();
-        fileReader.onload = function(element) {
+    onSuccess: function(event, fields){
+        // var fileReader = new FileReader();
+        // fileReader.onload = function(element) {
+        //     console.log(element);
+        // };
+        // fileReader.readAsDataURL($(fields.file));
 
-        };
-        fileReader.readAsText(fields.file);
+        var file = document.getElementById("fileUploadInputField").files[0];
+        if (file) {
+            var reader = new FileReader();
+
+            reader.readAsText(file, "UTF-8");
+
+            reader.onload = function (evt) {
+                var fastaText = evt.target.result;
+
+                AQUARIA.remote.calculatePssh(fastaText, fields.email, function(result){
+                    console.log(result);
+                });
+            };
+
+            reader.onerror = function (evt) {
+                document.getElementById("fileUploadInputField").innerHTML = "error reading file";
+            };
+        }
     }
 });
 
