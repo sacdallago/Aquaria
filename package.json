@@ -17,7 +17,6 @@
     "dnode": "~1.2.2",
     "domready": "~1.0.4",
     "ejs": "~0.8.4",
-    "emailjs": "~0.3.4",
     "es6-promise": "~0.1.1",
     "express": "~3.10.0",
     "forever": "~0.10.8",
