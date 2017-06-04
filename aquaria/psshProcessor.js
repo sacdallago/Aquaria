@@ -13,7 +13,8 @@ var PSSHProcessor = function(sequence, clusterCallback) {
   this.clustersToSend = [];
   this.psshStore = {};
 
-}
+};
+
 PSSHProcessor.prototype.finaliseClusters = function () {
   var that = this;
 //  console.log('in finalise clusters: ' );
@@ -53,7 +54,7 @@ PSSHProcessor.prototype.finaliseClusters = function () {
   });
 
 
-}
+};
 
 
 PSSHProcessor.prototype.sendClusters = function (force) {
@@ -70,7 +71,7 @@ PSSHProcessor.prototype.sendClusters = function (force) {
 //    console.log('in finalise clusters: 9' );
     that.clustersToSend = [];
   }
-}
+};
 
 PSSHProcessor.prototype.processPSSHRow = function (psshRow, chainRow) {
   var that = this;
@@ -127,7 +128,7 @@ PSSHProcessor.prototype.processPSSHRow = function (psshRow, chainRow) {
   catch(err) {
     console.log('Error in PSSH2 datarow: ' + err);
   }
-}
+};
 
 
 //determines whether two alignments belong in the same cluster based on number
@@ -187,7 +188,7 @@ function isSameCluster(input_seq_start, input_seq_end, input_cluster_seq_start,
         } else {
           overlap_start = seq_start[0];
         }
-        ;
+
         if (seq_end[0] > cluster_seq_end[i]) {
           overlap_end = cluster_seq_end[i];
           seq_start[0] = overlap_end + 1;
@@ -196,7 +197,7 @@ function isSameCluster(input_seq_start, input_seq_end, input_cluster_seq_start,
           seq_start.shift();
           seq_end.shift();
         }
-        ;
+
         // add up number of residues that overlap
         overlap_count += (overlap_end - overlap_start + 1);
       } else {
@@ -204,15 +205,15 @@ function isSameCluster(input_seq_start, input_seq_end, input_cluster_seq_start,
         seq_start.shift();
         seq_end.shift();
       }
-      ;
+
     } else {
       // absolutely no (further) overlap
       seq_start.splice(0, seq_start.length);
       seq_end.splice(0, seq_end.length);
     }
-    ;
+
   }
-  ;
+
 
   if (seqLen > cluster_seqLen) {
     large_seqLen = seqLen;
@@ -299,7 +300,7 @@ var calculateFullPSSHAlignment = function (alignToSeqRes, alignment) {
   pssh_full_alignment = read_alignment.pssh_full_alignment(pssh_alignment,
       seqres_alignment);
   return pssh_full_alignment;
-}
+};
 
 var createMemberFromEntry = function(psshRow, pdbChainRow, psshEntry, primaryAccession) {
 //console.log('prim acc: ' + primaryAccession);
@@ -318,14 +319,14 @@ var createMemberFromEntry = function(psshRow, pdbChainRow, psshEntry, primaryAcc
         "Resolution" : [ psshEntry.Resolution ]
   };
 
-}
+};
 
 var updateMember = function(member, psshEntry) {
   member.Resolution = [ psshEntry.Resolution ];
   member.biounits = psshEntry.biounits;
   member.transform = psshEntry.transform;
   member.Experimental_Method = psshEntry.Experimental_Method;
-}
+};
 
 var createPSSHEntryFromRow = function(psshRow, pdbChainRow) {
   return {
