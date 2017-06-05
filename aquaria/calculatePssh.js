@@ -1,5 +1,5 @@
 const validator = require('validator');
-const http = require('http');
+const request = require('request');
 const config = require('../common/config');
 const parseFasta = require('./parseFasta');
 
@@ -15,11 +15,12 @@ module.exports = {
             return callback(false);
         }
 
-        let sequences = getFasta(text);
+        let sequences = parseFasta.getFasta(fasta);
         let promises = [];
 
         sequences.forEach(function(sequence){
             let promise = new Promise(function(resolve, reject){
+                // Check if sequence already exists, else create job
                 parseFasta.matchingMD5(sequence).then(function(data) {
                     if (data.length > 0) {
                         resolve(data[0].md5);
@@ -31,17 +32,19 @@ module.exports = {
                             headers: {
                                 'token': config.pssh.secret
                             },
-                            body: {
+                            body: JSON.stringify({
                                 email: email,
                                 sequence: sequence.sequence
-                            }
+                            }),
+                            timeout: 2000
                         }, function(error, response, body) {
                             // TODO: WIP
-                            if (!error && response.statusCode !== 500) {
+                            if (!error && response.statusCode < 300) {
                                 let info = JSON.parse(body);
                                 resolve(sequence.md5);
                             } else {
-                                reject();
+                                console.error(error);
+                                resolve();
                             }
                         });
                     }
