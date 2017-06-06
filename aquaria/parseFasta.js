@@ -12,8 +12,10 @@ var getFasta = function(textFile){
 };
 
 var matchingMD5 = function(sequence){
+    // IMPORTANT!!!!!!!
+    // This query will SELECT on protein_sequence_unified --> this table was introduced with the update from @sacdallago
     var sqlquery = "SELECT Primary_Accession, Sequence, MD5_Hash, Description, Length \
-                    FROM protein_sequence WHERE MD5_Hash = ?;";
+                    FROM protein_sequence_unified WHERE MD5_Hash = ?;";
     return connector.queryPromise(sqlquery, sequence.md5);
 };
 

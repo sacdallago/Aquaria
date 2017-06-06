@@ -15,47 +15,28 @@ module.exports = {
             return callback(false);
         }
 
-        let sequences = parseFasta.getFasta(fasta);
-        let promises = [];
-
-        sequences.forEach(function(sequence){
-            let promise = new Promise(function(resolve, reject){
-                // Check if sequence already exists, else create job
-                parseFasta.matchingMD5(sequence).then(function(data) {
-                    if (data.length > 0) {
-                        resolve(data[0].md5);
-                    } else {
-                        // Perform request to PSSH API
-                        request({
-                            method: 'POST',
-                            url: config.pssh.endpoint,
-                            headers: {
-                                'token': config.pssh.secret
-                            },
-                            body: JSON.stringify({
-                                email: email,
-                                sequence: sequence.sequence
-                            }),
-                            timeout: 2000
-                        }, function(error, response, body) {
-                            // TODO: WIP
-                            if (!error && response.statusCode < 300) {
-                                let info = JSON.parse(body);
-                                resolve(sequence.md5);
-                            } else {
-                                console.error(error);
-                                resolve();
-                            }
-                        });
-                    }
-                });
-            });
-            promises.push(promise);
+        console.log("Requesting " + config.pssh.endpoint + " with token: " + config.pssh.secret);
+        // Perform request to PSSH API
+        request({
+            method: 'POST',
+            url: config.pssh.endpoint,
+            headers: {
+                'token': config.pssh.secret
+            },
+            formData: {
+                email: email,
+                raw: fasta
+            },
+            timeout: 2000
+        }, function(error, response, body) {
+            if (!error && response.statusCode < 300) {
+                var result = JSON.parse(body);
+                callback(result);
+            } else {
+                console.error(error);
+            }
         });
 
-        Promise.all(promises).then(function(hits){
-            callback(hits);
-        });
     }
 };
 
