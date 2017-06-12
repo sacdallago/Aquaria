@@ -3,7 +3,6 @@
 .DS_Store
 node_modules
 cache/*
-SQL/*
 jar/*
 public/pv
 log/*
