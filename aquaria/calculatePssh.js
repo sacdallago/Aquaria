@@ -1,7 +1,6 @@
 const validator = require('validator');
 const request = require('request');
 const config = require('../common/config');
-const parseFasta = require('./parseFasta');
 
 module.exports = {
     pssh: function(fasta, email, callback) {

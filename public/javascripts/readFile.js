@@ -21,12 +21,12 @@ function readMultipleFiles(evt) {
             var contents = element.target.result;
             AQUARIA.remote.checkFasta(contents, function(results){
                 results.forEach(function(sequence){
-                    if(sequence.Primary_Accession !== undefined){
+                    if(sequence.MD5_Hash !== undefined){
                         var li = document.createElement('li');
                         var a = document.createElement('a');
 
                         a.href = "#";
-                        a.textContent = sequence.Primary_Accession;
+                        a.textContent = sequence.Primary_Accession || sequence.MD5_Hash;
                         a.addEventListener("click", function(){
                             startLogoSpin();
                             AQUARIA.loadAccession([sequence.Primary_Accession], null, null, false, null);
@@ -97,6 +97,7 @@ $('.ui.form')
 
                 AQUARIA.remote.calculatePssh(fastaText, fields.email, function(result){
                     console.log(result);
+                    alert("Submitted " + result.succesful.length + " new sequences to calculate. For " + result.unsuccesful.length + " sequences the database answered with an error (most likely they are already submitted. Check the browser's logs for more info).");
                 });
             };
 
